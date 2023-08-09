@@ -42,7 +42,7 @@ const BlogPost: React.FC<BlogPostOnlyProps> = ({ content, data, author }) => {
 
       <Link href={`/${data.category}/page/1`}>{data.category}</Link>
 
-      {/* カバー画像をsvgで表示したかったらこれ    */}
+      {/* カバー画像をsvgで表示したかったらこれ   */}
       {/* <div dangerouslySetInnerHTML={{ __html: data.coverImage }} /> */}
       <MDXRemote {...content} />
       {/* <MDXRemote rehypePlugins={[rehypeRaw]}>{content}</MDXRemote> */}
