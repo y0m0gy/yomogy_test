@@ -47,8 +47,27 @@ export async function getStaticProps({
     blogPostProps.data.id = null;
   }
 
-  const mdxSource = blogPostProps.content
-    ? await serialize(blogPostProps.content, {
+  // "h1", "h2", "h3"を見つけたら、idを付与する。コードブロックの中も除外できないので注意
+  function addUniqueIdsToHeadings(content: string): string {
+    const headings = ["h1", "h2", "h3"];
+    let idCounter = 0;
+
+    headings.forEach((tag) => {
+      const regex = new RegExp(`<${tag}>((.|\\n)*?)<\/${tag}>`, "g");
+      content = content.replace(regex, (match, innerText) => {
+        const id =
+          innerText.toLowerCase().replace(/\s+/g, "-") + "-" + idCounter++;
+        return `<${tag} id="${id}">${innerText}</${tag}>`;
+      });
+    });
+
+    return content;
+  }
+
+  // console.log(blogPostProps.content);
+  const processedContent = addUniqueIdsToHeadings(blogPostProps.content ?? "");
+  const mdxSource = processedContent
+    ? await serialize(processedContent, {
         mdxOptions: {
           remarkPlugins: [remarkPrism],
           rehypePlugins: [rehypePrism],
@@ -65,47 +84,6 @@ export async function getStaticProps({
     },
   };
 }
-
-// export async function getStaticProps({
-//   params,
-// }: {
-//   params: Category & PostID;
-// }) {
-//   const blogPostProps = await getData(params);
-//   if ("notFound" in blogPostProps && blogPostProps.notFound) {
-//     return { notFound: true };
-//   }
-
-//   // Check if blogPostProps.data exists before referencing it
-//   const authorDetails = blogPostProps.data
-//     ? getAuthorDetails(blogPostProps.data.author)
-//     : null;
-
-//   const listDataResult = blogPostProps.data
-//     ? await getListData(params.category, blogPostProps.data.tag[0])
-//     : await getListData(params.category);
-
-//   const relatedPosts = "posts" in listDataResult ? listDataResult.posts : [];
-
-//   // Check if data.id is undefined, and if so, replace it with null
-//   if (blogPostProps.data && blogPostProps.data.id === undefined) {
-//     blogPostProps.data.id = null;
-//   }
-
-//   // Serialize the MDX content if it is not undefined
-//   const mdxSource = blogPostProps.content
-//     ? await serialize(blogPostProps.content)
-//     : null;
-
-//   return {
-//     props: {
-//       ...blogPostProps,
-//       content: mdxSource,
-//       relatedPosts,
-//       author: authorDetails,
-//     },
-//   };
-// }
 
 const BlogPostPage: React.FC<BlogPostProps> = ({
   content,

@@ -47,6 +47,7 @@ export async function createJsonForAuthorsAndPosts() {
         updatedAt: matterResult.data.updatedAt,
         category: category,
         author: author,
+        description: matterResult.data.description,
         tag: tags,
       };
 
@@ -302,6 +303,7 @@ export async function getListData(
     updatedAt: post.updatedAt,
     category: post.category,
     author: post.author,
+    description: post.description,
     tag: post.tag,
   }));
   return { title: category, posts: formattedPosts };

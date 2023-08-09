@@ -25,6 +25,7 @@ export interface Post {
   updatedAt: string;
   category: string;
   author: string;
+  description: string;
   tag: [];
 }
 
