@@ -4,7 +4,7 @@ import {
   getData,
   getListData,
   getAuthorDetails,
-} from "../../api/get-posts-category";
+} from "../api/get-posts-category";
 import { Category, PostID, BlogPostProps } from "../../utils/posts-type";
 
 import BlogPost from "../../components/blog-post";

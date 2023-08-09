@@ -2,7 +2,7 @@ import Link from "next/link";
 import {
   getAllAuthorPath,
   getPostsByAuthor,
-} from "../../../api/get-posts-category";
+} from "../../api/get-posts-category";
 import PageList from "../../../components/page-list";
 import { PageNationProps } from "../../../utils/posts-type";
 

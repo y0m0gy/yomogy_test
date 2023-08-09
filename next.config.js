@@ -1,8 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  images: {
-    optimized: true,
+  env: {
+    BASE_URL: process.env.BASE_URL,
+    GA_ADSENSE_ID: process.env.GA_ADSENSE_ID,
+    GA_MEASUREMENT_ID: process.env.GA_MEASUREMENT_ID,
   },
   // basePath: process.env.NODE_ENV === "development" ? "" : "/main", // Sub directory
   // assetPrefix: process.env.NODE_ENV === "development" ? undefined : "/main/", // Nginx

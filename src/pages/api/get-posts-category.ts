@@ -9,7 +9,7 @@ import {
   PostID,
   PostLists,
   AuthorData,
-} from "../utils/posts-type";
+} from "../../utils/posts-type";
 
 // 全記事を探索して、post/all-blog.json (全部生成) と、post/all-author.json (一部更新) を更新します。最初に実行
 export async function createJsonForAuthorsAndPosts() {
@@ -116,7 +116,7 @@ export async function createJsonForAuthorsAndPosts() {
 }
 
 // Common function to get all posts
-async function getAllPosts(): Promise<PostData[]> {
+export async function getAllPosts(): Promise<PostData[]> {
   const jsonPath = path.join(process.cwd(), "posts", "all-blog.json");
 
   // Read the JSON file
@@ -368,7 +368,7 @@ export async function getData(params: Category & PostID) {
   };
 }
 
-import { getPublicPath } from "../utils/getImagePath";
+import { getPublicPath } from "../../utils/getImagePath";
 
 export function getAuthorDetails(authorName: string): AuthorData {
   const jsonPath = path.join(process.cwd(), "posts", "all-author.json");

@@ -1,7 +1,7 @@
 import {
   getAllCategoryTagsPath,
   getListData,
-} from "../../../api/get-posts-category";
+} from "../../api/get-posts-category";
 import PageList from "../../../components/page-list";
 import { PostLists, Category, Tag } from "../../../utils/posts-type";
 

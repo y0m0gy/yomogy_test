@@ -2,7 +2,7 @@ import Link from "next/link";
 import {
   getAllCategoryTagsPath,
   getListData,
-} from "../../../../api/get-posts-category";
+} from "../../../api/get-posts-category";
 import PageList from "../../../../components/page-list";
 import {
   PostLists,

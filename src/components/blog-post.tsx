@@ -4,6 +4,10 @@ import { MDXRemote } from "next-mdx-remote";
 import { format } from "date-fns";
 import { BlogPostOnlyProps } from "../utils/posts-type";
 import { AuthorDetails } from "./author";
+import ShareButtons from "../components/share-buttons";
+import AdComponent from "../components/ad";
+
+// ... その他のコード ...
 
 const BlogPost: React.FC<BlogPostOnlyProps> = ({ content, data, author }) => {
   return (
@@ -46,6 +50,14 @@ const BlogPost: React.FC<BlogPostOnlyProps> = ({ content, data, author }) => {
       {/* <div dangerouslySetInnerHTML={{ __html: data.coverImage }} /> */}
       <MDXRemote {...content} />
       {/* <MDXRemote rehypePlugins={[rehypeRaw]}>{content}</MDXRemote> */}
+
+      <ShareButtons
+        url="https://yourwebsite.com/page-to-share"
+        title="Check this out!"
+        summary="A great page on my site."
+      />
+
+      <AdComponent />
     </div>
   );
 };
