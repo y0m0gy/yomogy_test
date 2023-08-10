@@ -17,22 +17,12 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
-
-body {
-  background-color: #ffffff; /* ライトモードの背景色 */
+  background-color: #f5f9f5; /* ライトモードの背景色 */
   color: #333333; /* ライトモードのテキスト色 */
 }
 
 .dark body {
-  background-color: #1a1a1a; /* ダークモードの背景色 */
+  background-color: #2a2a2a;
   color: #f5f5f5; /* ダークモードのテキスト色 */
 }
 
@@ -69,4 +59,49 @@ body {
     max-width: none;
     width: 100%;
   }
+}
+
+/* 通常モードのスタイル */
+
+.blog_main h1 {
+  font-size: 2.5rem;
+  line-height: 3.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.blog_main h2 {
+  font-size: 2rem;
+  line-height: 2.8rem;
+  font-weight: 600;
+  margin-top: 1.6rem;
+  margin-bottom: 0.8rem;
+  border-bottom: 2px solid #666;
+}
+
+/* 通常モードの h3 スタイル */
+.blog_main h3 {
+  border-left: 2px solid #384359;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 2.5rem;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  padding: 0 12px;
+}
+
+/* dark モードのスタイル */
+.blog_main.dark h1,
+.blog_main.dark h2,
+.blog_main.dark h3 {
+  color: #ffffff; /* 文字を白に設定 */
+}
+
+.blog_main h2.dark {
+  border-bottom-color: #aaa; /* ダークモードの下線の色 */
+}
+
+.blog_main h3.dark {
+  border-left-color: #7b7b7b; /* 左の線の色をダークモードに適した色に変更 */
 }

@@ -27,6 +27,8 @@ export interface Post {
   author: string;
   description: string;
   tag: [];
+  coverImage: string;
+  rePost: string;
 }
 
 export interface PostLists {

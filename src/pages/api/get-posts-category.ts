@@ -11,6 +11,8 @@ import {
   AuthorData,
 } from "../../utils/posts-type";
 
+import { createImage } from "./make-fig";
+
 // 全記事を探索して、post/all-blog.json (全部生成) と、post/all-author.json (一部更新) を更新します。最初に実行
 export async function createJsonForAuthorsAndPosts() {
   const postsDirectory = path.join(process.cwd(), "posts", "blog");
@@ -40,6 +42,8 @@ export async function createJsonForAuthorsAndPosts() {
 
       allAuthors.push(author);
 
+      // もし記事の画像がなければ、画像を生成する
+
       allPostsData[id] = {
         id: id,
         title: matterResult.data.title,
@@ -49,6 +53,8 @@ export async function createJsonForAuthorsAndPosts() {
         author: author,
         description: matterResult.data.description,
         tag: tags,
+        coverImage: `/images/blog/${category}/${id}_cover.png`,
+        rePost: matterResult.data.rePost,
       };
 
       if (allAuthorsCount[author]) {
@@ -104,12 +110,22 @@ export async function createJsonForAuthorsAndPosts() {
         name: author,
         description: "新規ユーザーです。プロフィールを更新してください。",
         twitter: "https://twitter.com/y0m0gy",
-        image: "/authors/images/y0m0gy.png",
+        image: "/images/authors/y0m0gy.png",
       };
     }
   }
 
   fs.writeFileSync(authorsJsonPath, JSON.stringify(authorsJson, null, 2));
+
+  for (const [id, postData] of Object.entries(allPostsData)) {
+    const { coverImage, title, category, author } = postData;
+
+    if (!fs.existsSync("public" + coverImage)) {
+      console.log("Creating image for", id);
+      // If path is undefined, null, empty string, or any other falsy value
+      await createImage(coverImage, title, author, authorsJson[author].image);
+    }
+  }
 
   // Create or update posts JSON
   const postsJsonPath = path.join(process.cwd(), "posts", "all-blog.json");
@@ -305,6 +321,8 @@ export async function getListData(
     author: post.author,
     description: post.description,
     tag: post.tag,
+    coverImage: post.coverImage,
+    rePost: post.rePost,
   }));
   return { title: category, posts: formattedPosts };
 }
@@ -367,6 +385,8 @@ export async function getData(params: Category & PostID) {
       author: data.author,
       description: data.description,
       tag: data.tag,
+      coverImage: `/images/blog/${data.category}/${data.id}_cover.png`,
+      rePost: data.rePost,
     },
   };
 }

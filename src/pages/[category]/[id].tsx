@@ -7,6 +7,7 @@ import {
 } from "../api/get-posts-category";
 import { Category, PostID, BlogPostProps } from "../../utils/posts-type";
 
+import { FrameTemplate } from "../../components/frame-template";
 import BlogPost from "../../components/blog-post";
 import Sidebar from "../../components/sidebar";
 
@@ -92,14 +93,10 @@ const BlogPostPage: React.FC<BlogPostProps> = ({
   author,
 }) => {
   return (
-    <div className="flex flex-col md:flex-row justify-center items-start w-full">
-      <div className="flex-grow w-full p-8 md:w-auto md:max-w-4xl">
-        <BlogPost content={content} data={data} author={author} />
-      </div>
-      <div className="flex-grow w-full p-4 md:w-auto md:max-w-xs">
-        <Sidebar relatedPosts={relatedPosts} />
-      </div>
-    </div>
+    <FrameTemplate
+      leftComponent={<BlogPost content={content} data={data} author={author} />}
+      rightComponent={<Sidebar relatedPosts={relatedPosts} />}
+    />
   );
 };
 

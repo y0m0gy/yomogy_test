@@ -45,7 +45,7 @@ const BlogPost: React.FC<BlogPostOnlyProps> = ({ content, data, author }) => {
   }, []);
 
   return (
-    <div className="bg-gray-100 dark:bg-gray-900 p-8 max-w-6xl mx-auto">
+    <div className="blog_main bg-white dark:bg-gray-900 p-8 max-w-6xl mx-auto">
       <div className="flex items-center space-x-2">
         <p className="text-gray-800 dark:text-gray-200">{"Home > "}</p>
         <Link
@@ -98,7 +98,7 @@ const BlogPost: React.FC<BlogPostOnlyProps> = ({ content, data, author }) => {
       <p className="font-bold text-xl mb-2 text-gray-800 dark:text-gray-200">
         目次
       </p>
-      <div className="toc bg-white dark:bg-gray-800 p-4 rounded shadow-md mb-4 divide-y divide-gray-300 dark:divide-gray-600"></div>
+      <div className="toc bg-white dark:bg-gray-700 p-4 rounded shadow-md mb-4 divide-y divide-gray-300 dark:divide-gray-600"></div>
       <div className="mdx-content mb-4">
         <MDXRemote {...content} />
       </div>

@@ -1,7 +1,7 @@
 {
   "post1": {
     "id": "post1",
-    "title": "My First Post",
+    "title": "はじめての投稿",
     "publishedAt": "2023-05-27",
     "updatedAt": "2023-05-28",
     "category": "igem",
@@ -11,7 +11,9 @@
       "java",
       "react",
       "information"
-    ]
+    ],
+    "coverImage": "/images/blog/igem/post1_cover.png",
+    "rePost": false
   },
   "post10": {
     "id": "post10",
@@ -25,7 +27,9 @@
       "java",
       "react",
       "information"
-    ]
+    ],
+    "coverImage": "/images/blog/igem/post10_cover.png",
+    "rePost": false
   },
   "post11": {
     "id": "post11",
@@ -39,7 +43,9 @@
       "java",
       "react",
       "information"
-    ]
+    ],
+    "coverImage": "/images/blog/igem/post11_cover.png",
+    "rePost": false
   },
   "post12": {
     "id": "post12",
@@ -53,7 +59,9 @@
       "java",
       "react",
       "information"
-    ]
+    ],
+    "coverImage": "/images/blog/igem/post12_cover.png",
+    "rePost": false
   },
   "post13": {
     "id": "post13",
@@ -67,7 +75,9 @@
       "java",
       "react",
       "information"
-    ]
+    ],
+    "coverImage": "/images/blog/igem/post13_cover.png",
+    "rePost": false
   },
   "post3": {
     "id": "post3",
@@ -81,7 +91,9 @@
       "javascript",
       "react",
       "information"
-    ]
+    ],
+    "coverImage": "/images/blog/igem/post3_cover.png",
+    "rePost": false
   },
   "post4": {
     "id": "post4",
@@ -95,7 +107,9 @@
       "java",
       "react",
       "information"
-    ]
+    ],
+    "coverImage": "/images/blog/igem/post4_cover.png",
+    "rePost": false
   },
   "post5": {
     "id": "post5",
@@ -109,7 +123,9 @@
       "java",
       "react",
       "information"
-    ]
+    ],
+    "coverImage": "/images/blog/igem/post5_cover.png",
+    "rePost": false
   },
   "post6": {
     "id": "post6",
@@ -123,7 +139,9 @@
       "java",
       "react",
       "information"
-    ]
+    ],
+    "coverImage": "/images/blog/igem/post6_cover.png",
+    "rePost": false
   },
   "post7": {
     "id": "post7",
@@ -137,7 +155,9 @@
       "java",
       "react",
       "information"
-    ]
+    ],
+    "coverImage": "/images/blog/igem/post7_cover.png",
+    "rePost": false
   },
   "post8": {
     "id": "post8",
@@ -151,7 +171,9 @@
       "java",
       "react",
       "information"
-    ]
+    ],
+    "coverImage": "/images/blog/igem/post8_cover.png",
+    "rePost": false
   },
   "post9": {
     "id": "post9",
@@ -165,7 +187,9 @@
       "java",
       "react",
       "information"
-    ]
+    ],
+    "coverImage": "/images/blog/igem/post9_cover.png",
+    "rePost": false
   },
   "post2": {
     "id": "post2",
@@ -179,6 +203,8 @@
       "javascript",
       "reacts",
       "information"
-    ]
+    ],
+    "coverImage": "/images/blog/synbio/post2_cover.png",
+    "rePost": false
   }
 }

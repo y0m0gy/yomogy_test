@@ -3,15 +3,15 @@ import { SidebarProps } from "../utils/posts-type";
 
 const Sidebar: React.FC<SidebarProps> = ({ relatedPosts }) => {
   return (
-    <div className="w-full md:w-72 p-4 bg-white dark:bg-gray-800 rounded shadow-lg">
-      <div className="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200">
+    <div className="w-full md:w-100 p-4 bg-white dark:bg-gray-900 rounded shadow-lg">
+      <div className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-200">
         Related Posts
       </div>
       <ul>
         {relatedPosts.map((post) => (
           <li key={post.id} className="mb-4">
             <Link href={`/${post.category}/${post.id}`}>
-              <div className="block p-4 rounded bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors cursor-pointer">
+              <div className="block p-4 rounded bg-white dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors cursor-pointer shadow">
                 <div className="truncate text-lg font-semibold text-gray-900 dark:text-gray-300">
                   {post.title}
                 </div>
