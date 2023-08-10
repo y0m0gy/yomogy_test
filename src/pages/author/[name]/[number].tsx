@@ -27,6 +27,7 @@ export async function getStaticProps(context: {
     updatedAt: post.updatedAt,
     category: post.category,
     author: post.author,
+    description: post.description,
     tag: post.tag,
   }));
 
