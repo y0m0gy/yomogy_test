@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import Header from "./header";
 import Footer from "./footer";
+import { DarkModeProvider } from "./dark-mode";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,9 +15,11 @@ export default function RootLayout({
       className={`${inter.className}`}
       style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
     >
-      <Header />
-      <div style={{ flex: 1 }}>{children}</div>
-      <Footer />
+      <DarkModeProvider>
+        <Header />
+        <div style={{ flex: 1 }}>{children}</div>
+        <Footer />
+      </DarkModeProvider>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 // header.tsx
 import Link from "next/link";
+import DarkModeToggle from "./dark-mode";
 
 export default function Header() {
   return (
@@ -12,10 +13,7 @@ export default function Header() {
       <nav className="flex gap-4">
         <Link href="/igem/page/1">iGEM</Link>
         <Link href="/synbio/page/1">Synbio</Link>
-
-        {/* <Link href="/category3">
-          <a>Category 3</a>
-        </Link> */}
+        <DarkModeToggle />
       </nav>
     </header>
   );

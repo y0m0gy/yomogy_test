@@ -25,3 +25,48 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+body {
+  background-color: #ffffff; /* ライトモードの背景色 */
+  color: #333333; /* ライトモードのテキスト色 */
+}
+
+.dark body {
+  background-color: #1a1a1a; /* ダークモードの背景色 */
+  color: #f5f5f5; /* ダークモードのテキスト色 */
+}
+
+/* 目次 */
+.toc-list-item {
+  padding: 8px 0; /* 上下のスペースを追加 */
+  border-bottom: 1px solid #e2e8f0; /* ボーダーを追加 */
+}
+
+.toc-list-item:last-child {
+  border-bottom: none; /* 最後の項目のボーダーを削除 */
+}
+
+.toc-link {
+  color: #3182ce; /* リンクの色を設定 */
+  text-decoration: none; /* 下線を削除 */
+}
+
+.toc-link:hover {
+  text-decoration: underline; /* ホバー時に下線を追加 */
+}
+
+.node-name--H3 {
+  margin-left: 1.5rem; /* 例: 1.5remの左マージンを追加 */
+}
+
+/* サイドバー */
+@media (max-width: 768px) {
+  .custom-max-width-blogpost {
+    max-width: none;
+    width: 100%;
+  }
+  .custom-max-width-sidebar {
+    max-width: none;
+    width: 100%;
+  }
+}

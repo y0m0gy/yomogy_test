@@ -92,9 +92,13 @@ const BlogPostPage: React.FC<BlogPostProps> = ({
   author,
 }) => {
   return (
-    <div>
-      <BlogPost content={content} data={data} author={author} />
-      <Sidebar relatedPosts={relatedPosts} />
+    <div className="flex flex-col md:flex-row justify-center items-start w-full">
+      <div className="flex-grow w-full p-8 md:w-auto md:max-w-4xl">
+        <BlogPost content={content} data={data} author={author} />
+      </div>
+      <div className="flex-grow w-full p-4 md:w-auto md:max-w-xs">
+        <Sidebar relatedPosts={relatedPosts} />
+      </div>
     </div>
   );
 };

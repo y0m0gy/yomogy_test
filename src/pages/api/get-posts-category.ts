@@ -365,6 +365,7 @@ export async function getData(params: Category & PostID) {
       updatedAt: data.updatedAt,
       category: data.category,
       author: data.author,
+      description: data.description,
       tag: data.tag,
     },
   };
