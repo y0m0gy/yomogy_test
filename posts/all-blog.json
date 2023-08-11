@@ -1,4 +1,20 @@
 {
+  "add-post1": {
+    "id": "add-post1",
+    "title": "Githubからの投稿",
+    "publishedAt": "2023-08-11",
+    "updatedAt": "2023-08-11",
+    "category": "igem",
+    "author": "Yomogy",
+    "description": "This is my first post.",
+    "tag": [
+      "java",
+      "react",
+      "information"
+    ],
+    "coverImage": "/images/blog/igem/add-post1_cover.png",
+    "rePost": false
+  },
   "post1": {
     "id": "post1",
     "title": "はじめての投稿",

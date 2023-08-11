@@ -1,17 +1,17 @@
 {
   "categories": {
-    "igem": 12,
+    "igem": 13,
     "synbio": 1
   },
   "authors": {
-    "Yomogy": 12,
+    "Yomogy": 13,
     "Yom": 1
   },
   "categoryTags": {
     "igem": {
-      "java": 11,
-      "react": 12,
-      "information": 12,
+      "java": 12,
+      "react": 13,
+      "information": 13,
       "javascript": 1
     },
     "synbio": {
