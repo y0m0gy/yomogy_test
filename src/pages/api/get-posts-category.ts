@@ -298,11 +298,11 @@ export async function getPostsByCategory(
   if (tag) {
     return filteredPosts
       .filter((post) => post.tag.includes(tag))
-      .sort((a, b) => (a.date < b.date ? 1 : -1));
+      .sort(sortByPublishedDate);
   }
 
   // If no tag is provided, return all posts
-  return filteredPosts.sort((a, b) => (a.date < b.date ? 1 : -1));
+  return filteredPosts;
 }
 
 // Category, Tagから記事データを取得する
@@ -324,7 +324,7 @@ export async function getListData(
     coverImage: post.coverImage,
     rePost: post.rePost,
   }));
-  return { title: category, posts: formattedPosts };
+  return { title: category, posts: formattedPosts.sort(sortByPublishedDate) };
 }
 
 // authorごとの記事リストを取得する。この関数は、all-blog.jsonファイルを読み込み、その内容をJavaScriptオブジェクトに変換します。その後、このオブジェクトの値を取得して配列に変換し、指定された著者の投稿だけをフィルタリングします。最後に、投稿を日付順にソートして返します。
@@ -341,24 +341,13 @@ export async function getPostsByAuthor(author: string): Promise<PostData[]> {
   // Filter the posts by author
   return allPostsArray
     .filter((post) => post.author === author)
-    .sort((a, b) => {
-      if (a.date < b.date) {
-        return 1;
-      } else {
-        return -1;
-      }
-    });
+    .sort(sortByPublishedDate);
 }
 
 // 新着記事を取得する
 export async function getLatestPosts(limit = 5): Promise<PostData[]> {
   const allPosts = await getAllPosts();
-  return allPosts
-    .sort(
-      (a, b) =>
-        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
-    )
-    .slice(0, limit);
+  return allPosts.sort(sortByPublishedDate).slice(0, limit);
 }
 
 // おすすめ記事を取得する
@@ -435,6 +424,7 @@ export async function getData(params: Category & PostID) {
 
 import { getPublicPath } from "../../utils/getImagePath";
 
+// 著者の詳細を取得する
 export function getAuthorDetails(authorName: string): AuthorData {
   const jsonPath = path.join(process.cwd(), "posts", "all-author.json");
 
@@ -449,4 +439,11 @@ export function getAuthorDetails(authorName: string): AuthorData {
   authorDetails.image = getPublicPath(authorDetails.image);
 
   return authorDetails;
+}
+
+// 記事の並び替え 最新→古い
+function sortByPublishedDate(a: any, b: any): number {
+  return new Date(b.publishedAt).getTime() > new Date(a.publishedAt).getTime()
+    ? 1
+    : -1;
 }
