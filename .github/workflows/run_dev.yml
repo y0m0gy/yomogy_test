@@ -35,8 +35,8 @@ jobs:
           git config user.name 'GitHub Actions'
           git config user.email 'actions@github.com'
           git add -A
+          git remote set-url origin https://${{ secrets.MY_YOMOGY_DEV_TOKEN }}@github.com/yomogyhub/yomogy_test.git
           git commit -m "Automated NPX changes"
           git push
         env:
-          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_TOKEN: "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"
+          GITHUB_TOKEN: ${{ secrets.MY_YOMOGY_DEV_TOKEN }}
