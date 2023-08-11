@@ -95,7 +95,9 @@ const BlogPostPage: React.FC<BlogPostProps> = ({
   return (
     <FrameTemplate
       leftComponent={<BlogPost content={content} data={data} author={author} />}
-      rightComponent={<Sidebar relatedPosts={relatedPosts} />}
+      rightComponent={
+        <Sidebar title={"Related Posts"} relatedPosts={relatedPosts} />
+      }
     />
   );
 };

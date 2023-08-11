@@ -4,10 +4,10 @@ import DarkModeToggle from "./dark-mode";
 
 export default function Header() {
   return (
-    <header className="flex justify-between bg-[#5EAD43] dark:bg-[#5EAD43] p-4">
+    <header className="flex justify-between bg-[#5EAD43]  p-4">
       <div className="text-xl font-bold">
-        <Link href="/">
-          <p>My Logo</p>
+        <Link href="/" className="text-white">
+          <p>Yomogy</p>
         </Link>
       </div>
       <nav className="flex gap-4">

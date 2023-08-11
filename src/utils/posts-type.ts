@@ -51,6 +51,7 @@ export type PageNationProps = {
 };
 
 export type SidebarProps = {
+  title: string;
   relatedPosts: Post[];
 };
 

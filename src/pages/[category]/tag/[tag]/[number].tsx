@@ -2,6 +2,7 @@ import Link from "next/link";
 import {
   getAllCategoryTagsPath,
   getListData,
+  getBasicContent,
 } from "../../../api/get-posts-category";
 import PageList from "../../../../components/page-list";
 import {
@@ -10,6 +11,10 @@ import {
   Tag,
   PageNationProps,
 } from "../../../../utils/posts-type";
+
+import { FrameTemplate } from "../../../../components/frame-template";
+import Pagination from "../../../../components/pagination"; // 実際のパスはあなたのプロジェクト構成に基づいて調整してください
+import Sidebar from "../../../../components/sidebar";
 
 export async function getStaticPaths() {
   const paths = await getAllCategoryTagsPath();
@@ -36,6 +41,8 @@ export async function getStaticProps({
   const end = start + itemsPerPage;
 
   const posts = allPosts.posts.slice(start, end);
+  const basicContent = await getBasicContent();
+  const { newPosts, recommendPosts } = basicContent.props;
 
   return {
     props: {
@@ -43,6 +50,8 @@ export async function getStaticProps({
       posts: posts,
       page: page,
       totalPages: Math.ceil(allPosts.posts.length / itemsPerPage),
+      newPosts,
+      recommendPosts,
     },
   };
 }
@@ -52,36 +61,30 @@ export default function TagPage({
   title,
   page,
   totalPages,
-}: PageNationProps) {
+  newPosts,
+  recommendPosts,
+}: PageNationProps & { newPosts: PostLists; recommendPosts: PostLists }) {
   return (
-    <div>
-      <PageList title={title} posts={posts} />
-
-      <div>
-        {page > 1 && (
-          <Link href={`/${posts[0].category}/tag/${title}/${page - 1}`}>
-            <span>Previous</span>
-          </Link>
-        )}
-
-        {/* Generate page numbers */}
-        {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-          (pageNumber) => (
-            <Link
-              href={`/${posts[0].category}/tag/${title}/${pageNumber}`}
-              key={pageNumber}
-            >
-              <span>{pageNumber}</span>
-            </Link>
-          )
-        )}
-
-        {page < totalPages && (
-          <Link href={`/${posts[0].category}/tag/${title}/${page + 1}`}>
-            <span>Next</span>
-          </Link>
-        )}
-      </div>
-    </div>
+    <FrameTemplate
+      leftComponent={
+        <div>
+          <PageList title={title} posts={posts} />
+          <Pagination
+            link={`${posts[0].category}/tag/${title}`}
+            page={page}
+            totalPages={totalPages}
+          />
+        </div>
+      }
+      rightComponent={
+        <>
+          <Sidebar title={newPosts.title} relatedPosts={newPosts.posts} />
+          <Sidebar
+            title={recommendPosts.title}
+            relatedPosts={recommendPosts.posts}
+          />
+        </>
+      }
+    />
   );
 }

@@ -350,6 +350,48 @@ export async function getPostsByAuthor(author: string): Promise<PostData[]> {
     });
 }
 
+// 新着記事を取得する
+export async function getLatestPosts(limit = 5): Promise<PostData[]> {
+  const allPosts = await getAllPosts();
+  return allPosts
+    .sort(
+      (a, b) =>
+        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+    )
+    .slice(0, limit);
+}
+
+// おすすめ記事を取得する
+export async function getRecommendPosts(): Promise<PostData[]> {
+  const allPosts = await getAllPosts();
+  const recommendId = ["post1", "post2", "post3", "post4", "post5"];
+
+  const recommendedPosts = allPosts.filter((post) =>
+    recommendId.includes(post.id)
+  );
+
+  return recommendedPosts;
+}
+
+export async function getBasicContent() {
+  const newPosts = await getLatestPosts();
+  const recommendPosts = await getRecommendPosts();
+  // getData({ category: "igem", id: "post1" });
+
+  return {
+    props: {
+      newPosts: {
+        title: "新着記事",
+        posts: newPosts,
+      },
+      recommendPosts: {
+        title: "おすすめ記事",
+        posts: recommendPosts,
+      },
+    },
+  };
+}
+
 // ファイル名からデータを取得する
 export async function getData(params: Category & PostID) {
   if (!params.category || !params.id) return { notFound: true };

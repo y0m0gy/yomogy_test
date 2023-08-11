@@ -2,14 +2,25 @@ import Link from "next/link";
 import {
   getAllAuthorPath,
   getPostsByAuthor,
+  getBasicContent,
 } from "../../api/get-posts-category";
 import PageList from "../../../components/page-list";
-import { PageNationProps } from "../../../utils/posts-type";
+import { PageNationProps, PostLists } from "../../../utils/posts-type";
+import Sidebar from "../../../components/sidebar";
+import { FrameTemplate } from "../../../components/frame-template";
+import Pagination from "../../../components/pagination"; // 実際のパスはあなたのプロジェクト構成に基づいて調整してください
+
+// Fetch data and generate static paths with getStaticPaths
+export async function getStaticPaths() {
+  const paths = await getAllAuthorPath();
+
+  return { paths, fallback: false };
+}
 
 // Fetch data and generate static pages with getStaticProps
 export async function getStaticProps(context: {
   params: { name: string; number: string };
-}): Promise<{ props: PageNationProps } | { notFound: true }> {
+}) {
   const name = context.params?.name;
   const page = context.params?.number ? parseInt(context.params?.number) : null;
 
@@ -33,21 +44,19 @@ export async function getStaticProps(context: {
     rePost: post.rePost,
   }));
 
+  const basicContent = await getBasicContent();
+  const { newPosts, recommendPosts } = basicContent.props;
+
   return {
     props: {
       posts: formattedPosts,
       title: name, // Pass the name as a prop
       page: page,
       totalPages: Math.ceil(posts.length / itemsPerPage),
+      newPosts,
+      recommendPosts,
     },
   };
-}
-
-// Fetch data and generate static paths with getStaticPaths
-export async function getStaticPaths() {
-  const paths = await getAllAuthorPath();
-
-  return { paths, fallback: false };
 }
 
 // Render the AuthorPage component
@@ -56,35 +65,30 @@ export default function AuthorPage({
   title,
   page,
   totalPages,
-}: PageNationProps) {
+  newPosts,
+  recommendPosts,
+}: PageNationProps & { newPosts: PostLists; recommendPosts: PostLists }) {
   return (
-    <div>
-      {/* Display data */}
-      <PageList title={title} posts={posts} />
-
-      {/* Pagination controls */}
-      <div>
-        {page > 1 && (
-          <Link href={`/author/${title}/${page - 1}`}>
-            <span>Previous</span>
-          </Link>
-        )}
-
-        {/* Generate page numbers */}
-        {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-          (pageNumber) => (
-            <Link href={`/author/${title}/${pageNumber}`} key={pageNumber}>
-              <span>{pageNumber}</span>
-            </Link>
-          )
-        )}
-
-        {page < totalPages && (
-          <Link href={`/author/${title}/${page + 1}`}>
-            <span>Next</span>
-          </Link>
-        )}
-      </div>
-    </div>
+    <FrameTemplate
+      leftComponent={
+        <div>
+          <PageList title={title} posts={posts} />
+          <Pagination
+            link={`author/${title}`}
+            page={page}
+            totalPages={totalPages}
+          />
+        </div>
+      }
+      rightComponent={
+        <>
+          <Sidebar title={newPosts.title} relatedPosts={newPosts.posts} />
+          <Sidebar
+            title={recommendPosts.title}
+            relatedPosts={recommendPosts.posts}
+          />
+        </>
+      }
+    />
   );
 }

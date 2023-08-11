@@ -12,7 +12,7 @@ const PageList: React.FC<PostLists> = ({ title, posts }) => (
       {posts.map((post) => (
         <li
           key={post.id}
-          className="bg-white dark:bg-gray-800 rounded-md shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out lg:w-[90%] w-full mx-auto"
+          className="bg-white dark:bg-gray-900 rounded-md shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out lg:w-[90%] w-full mx-auto"
         >
           <Link href={`/${post.category}/${post.id}`} className="block h-full">
             <div className="relative w-full">
