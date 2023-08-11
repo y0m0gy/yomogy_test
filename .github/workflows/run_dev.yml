@@ -41,5 +41,5 @@ jobs:
           git config user.name 'GitHub Actions'
           git config user.email 'actions@github.com'
           git add -A
-          git commit -m "Automated NPX changes"
+          git commit -m "Automated Update by Github"
           git push https://${{ secrets.GITHUB_TOKEN }}@github.com/yomogyhub/yomogy_test.git HEAD:dev
