@@ -10,6 +10,9 @@ on:
     branches:
       - dev
 
+permissions:
+  contents: write
+
 jobs:
   run-npx-and-push:
     runs-on: ubuntu-latest
@@ -36,7 +39,7 @@ jobs:
           git config user.email 'actions@github.com'
           git add -A
           git commit -m "Automated NPX changes"
-          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/yomogyhub/yomogy_test.git dev
+          git push https://${{ secrets.GITHUB_TOKEN }}@github.com:yomogyhub/yomogy_test.git dev
 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
