@@ -1,5 +1,10 @@
-name: Run NPX and Push Changes
+name: Run NPX
 
+# on:
+#   pull_request:
+#     branches:
+#       - staging
+#     paths: "*"
 on:
   push:
     branches:
