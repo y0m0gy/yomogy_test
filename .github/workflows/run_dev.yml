@@ -38,4 +38,5 @@ jobs:
           git commit -m "Automated NPX changes"
           git push
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: "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"
