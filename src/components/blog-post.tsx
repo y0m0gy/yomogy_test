@@ -103,9 +103,9 @@ const BlogPost: React.FC<BlogPostOnlyProps> = ({ content, data, author }) => {
         <MDXRemote {...content} />
       </div>
       <ShareButtons
-        url="https://yourwebsite.com/page-to-share"
-        title="Check this out!"
-        summary="A great page on my site."
+        url={`${process.env.BASE_URL}/${data.category}/${data.id}`}
+        title={data.title}
+        summary="@Yomogy"
       />
 
       <AuthorDetails author={author} />
