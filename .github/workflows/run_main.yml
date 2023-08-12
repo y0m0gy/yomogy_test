@@ -1,0 +1,24 @@
+name: Merge main into dev
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  merge-to-dev:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: dev
+
+      - name: "[Force] Merge changes from main"
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
+      - name: "[Force] Push changes to dev"
+        run: |
+          git push origin dev --force
