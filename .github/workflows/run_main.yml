@@ -1,9 +1,9 @@
-name: Merge staging into dev
+name: Merge main into dev
 
 on:
   push:
     branches:
-      - staging
+      - main
 
 jobs:
   merge-to-dev:
@@ -15,13 +15,13 @@ jobs:
         with:
           ref: dev
 
-      - name: "[Force] Merge changes from staging"
+      - name: "[Force] Merge changes from main"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
         run: |
           git config user.name 'GitHub Actions'
           git config user.email 'actions@github.com'
-          git fetch origin staging
-          git reset --hard origin/staging
+          git fetch origin main
+          git reset --hard origin/main
           git push https://${{ secrets.GITHUB_TOKEN }}@github.com/yomogyhub/yomogy_test.git HEAD:dev --force
