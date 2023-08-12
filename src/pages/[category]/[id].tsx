@@ -7,6 +7,7 @@ import {
 } from "../api/get-posts-category";
 import { Category, PostID, BlogPostProps } from "../../utils/posts-type";
 
+import Seo from "../../components/seo";
 import { FrameTemplate } from "../../components/frame-template";
 import BlogPost from "../../components/blog-post";
 import Sidebar from "../../components/sidebar";
@@ -82,23 +83,35 @@ export async function getStaticProps({
       content: mdxSource,
       relatedPosts,
       author: authorDetails,
+      id: params.id,
     },
   };
 }
 
 const BlogPostPage: React.FC<BlogPostProps> = ({
-  content,
   data,
+  content,
   relatedPosts,
   author,
+  id,
 }) => {
   return (
-    <FrameTemplate
-      leftComponent={<BlogPost content={content} data={data} author={author} />}
-      rightComponent={
-        <Sidebar title={"Related Posts"} relatedPosts={relatedPosts} />
-      }
-    />
+    <>
+      <Seo
+        pageTitle={data.title}
+        pageDescription={data.description}
+        pagePath={`${process.env.BASE_URL}/${data.category}/${id}`}
+        pageImg={`${process.env.BASE_URL}/images/blog/${data.category}/${id}_cover.png`}
+      />
+      <FrameTemplate
+        leftComponent={
+          <BlogPost content={content} data={data} author={author} id={id} />
+        }
+        rightComponent={
+          <Sidebar title={"Related Posts"} relatedPosts={relatedPosts} />
+        }
+      />
+    </>
   );
 };
 

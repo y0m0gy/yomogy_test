@@ -68,6 +68,7 @@ export interface BlogPostOnlyProps {
   content: MDXRemoteSerializeResult;
   data: Post;
   author: AuthorData;
+  id: string;
 }
 
 export interface AuthorData {

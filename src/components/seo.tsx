@@ -1,4 +1,4 @@
-import { VFC } from "react";
+import React from "react";
 import Head from "next/head";
 
 interface MetaData {
@@ -10,7 +10,7 @@ interface MetaData {
   pageImgHeight?: number;
 }
 
-const Seo: VFC<MetaData> = ({
+const Seo: React.FC<MetaData> = ({
   pageTitle,
   pageDescription,
   pagePath,
@@ -18,15 +18,16 @@ const Seo: VFC<MetaData> = ({
   pageImgWidth,
   pageImgHeight,
 }) => {
-  const defaultTitle = "demo";
-  const defaultDescription = "demo";
+  const defaultTitle = "Yomogy";
+  const defaultDescription =
+    "Yomogyは、Synbio(合成生物学)やiGEMに関する情報を集約し、発信していくポータルサイトです。";
 
   const title = pageTitle ? `${pageTitle} | ${defaultTitle}` : defaultTitle;
   const description = pageDescription ? pageDescription : defaultDescription;
   const url = pagePath;
   const imgUrl = pageImg;
-  const imgWidth = pageImgWidth ? pageImgWidth : 1280;
-  const imgHeight = pageImgHeight ? pageImgHeight : 640;
+  const imgWidth = pageImgWidth ? pageImgWidth : 1200;
+  const imgHeight = pageImgHeight ? pageImgHeight : 630;
 
   return (
     <Head>
@@ -41,11 +42,7 @@ const Seo: VFC<MetaData> = ({
       <meta property="og:image" content={imgUrl} />
       <meta property="og:image:width" content={String(imgWidth)} />
       <meta property="og:image:height" content={String(imgHeight)} />
-      <link rel="preconnect" href="https://fonts.gstatic.com" />
-      <link
-        href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900&amp;display=swap"
-        rel="stylesheet"
-      />
+
       <link rel="canonical" href={url} />
     </Head>
   );

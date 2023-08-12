@@ -9,7 +9,12 @@ import tocbot from "tocbot";
 import React, { useEffect } from "react";
 import Router from "next/router"; // これを追加
 
-const BlogPost: React.FC<BlogPostOnlyProps> = ({ content, data, author }) => {
+const BlogPost: React.FC<BlogPostOnlyProps> = ({
+  content,
+  data,
+  author,
+  id,
+}) => {
   useEffect(() => {
     const initTocbot = () => {
       tocbot.init({
@@ -103,7 +108,7 @@ const BlogPost: React.FC<BlogPostOnlyProps> = ({ content, data, author }) => {
         <MDXRemote {...content} />
       </div>
       <ShareButtons
-        url={`${process.env.BASE_URL}/${data.category}/${data.id}`}
+        url={`${process.env.BASE_URL}/${data.category}/${id}`}
         title={data.title}
         summary="@Yomogy"
       />
