@@ -22,7 +22,7 @@ const Seo: React.FC<MetaData> = ({
   const defaultDescription =
     "Yomogyは、Synbio(合成生物学)やiGEMに関する情報を集約し、発信していくポータルサイトです。";
 
-  const title = pageTitle ? `${pageTitle} | ${defaultTitle}` : defaultTitle;
+  const title = pageTitle ? pageTitle : defaultTitle;
   const description = pageDescription ? pageDescription : defaultDescription;
   const url = pagePath;
   const imgUrl = pageImg;
@@ -40,7 +40,7 @@ const Seo: React.FC<MetaData> = ({
       <meta key="metaDescription" name="description" content={description} />
       <meta key="ogUrl" property="og:url" content={url} />
       <meta key="ogTitle" property="og:title" content={title} />
-      <meta key="ogSiteName" property="og:site_name" content={title} />
+      <meta key="ogSiteName" property="og:site_name" content={defaultTitle} />
       <meta
         key="ogDescription"
         property="og:description"
@@ -58,6 +58,21 @@ const Seo: React.FC<MetaData> = ({
         property="og:image:height"
         content={String(imgHeight)}
       />
+
+      <meta key="twitterUrl" name="twitter:url" content={url} />
+      <meta
+        key="twitterCard"
+        name="twitter:card"
+        content="summary_large_image"
+      />
+      <meta key="twitterTitle" name="twitter:title" content={title} />
+      <meta
+        key="twitterDescription"
+        name="twitter:description"
+        content={description}
+      />
+      <meta key="twitterImage" name="twitter:image" content={imgUrl} />
+
       <link key="canonicalLink" rel="canonical" href={url} />
     </Head>
   );
