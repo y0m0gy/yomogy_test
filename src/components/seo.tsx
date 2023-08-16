@@ -58,6 +58,21 @@ const Seo: React.FC<MetaData> = ({
         property="og:image:height"
         content={String(imgHeight)}
       />
+
+      <meta key="twitterUrl" name="twitter:url" content={url} />
+      <meta
+        key="twitterCard"
+        name="twitter:card"
+        content="summary_large_image"
+      />
+      <meta key="twitterTitle" name="twitter:title" content={title} />
+      <meta
+        key="twitterDescription"
+        name="twitter:description"
+        content={description}
+      />
+      <meta key="twitterImage" name="twitter:image" content={imgUrl} />
+
       <link key="canonicalLink" rel="canonical" href={url} />
     </Head>
   );
