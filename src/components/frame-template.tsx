@@ -11,10 +11,10 @@ export const FrameTemplate: React.FC<FrameTemplateProps> = ({
 }) => {
   return (
     <div className="flex flex-col lg:flex-row justify-center items-start w-full items-stretch">
-      <div className="flex-grow w-full p-4 lg:w-auto lg:max-w-4xl">
+      <div className="flex-grow w-full lg:p-4 lg:w-auto lg:max-w-4xl">
         {leftComponent}
       </div>
-      <div className="flex-grow w-full p-4 lg:w-auto lg:max-w-xs">
+      <div className="flex-grow w-full lg:p-4 lg:w-auto lg:max-w-xs">
         {rightComponent}
       </div>
     </div>
