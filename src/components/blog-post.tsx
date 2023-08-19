@@ -50,7 +50,7 @@ const BlogPost: React.FC<BlogPostOnlyProps> = ({
   }, []);
 
   return (
-    <div className="blog_main bg-white dark:bg-gray-900 p-8 max-w-6xl mx-auto">
+    <div className="blog_main bg-white dark:bg-gray-900 p-4 lg:p-8 max-w-6xl mx-auto w-full max-w-full">
       <div className="flex items-center space-x-2">
         <p className="text-gray-800 dark:text-gray-200">{"Home > "}</p>
         <Link
@@ -68,25 +68,23 @@ const BlogPost: React.FC<BlogPostOnlyProps> = ({
         <span className="text-blue-500 hover:underline dark:text-blue-400">
           <Link href={`/author/${data.author}/1`}>{data.author}</Link>
         </span>
-        <p className="text-gray-600 dark:text-gray-400">{data.updatedAt}</p>
+        <time
+          dateTime={format(new Date(data.updatedAt), "yyyy-MM-dd")}
+          itemProp="dateModified"
+          className="text-gray-600 dark:text-gray-400"
+        >
+          {format(new Date(data.updatedAt), "yyyy年MM月dd日")}
+        </time>
+        <time
+          dateTime={format(new Date(data.publishedAt), "yyyy-MM-dd")}
+          itemProp="datePublished"
+          className="block text-gray-600 mb-4"
+        ></time>
       </div>
-
-      {/* <time
-        dateTime={format(new Date(data.updatedAt), "yyyy-MM-dd")}
-        itemProp="dateModified"
-        className="block text-gray-600 mb-2"
-      >
-        最終更新日: {format(new Date(data.updatedAt), "yyyy年MM月dd日")}
-      </time> */}
-      {/* <time
-        dateTime={format(new Date(data.publishedAt), "yyyy-MM-dd")}
-        itemProp="datePublished"
-        className="block text-gray-600 mb-4"
-      ></time> */}
 
       <div className="my-4">
         {data.tag.map((name, index) => (
-          <span key={index} className="mr-2 mb-2 inline-block">
+          <span key={index} className="mr-2 inline-block">
             <Link
               href={`/${data.category}/tag/${name}/1`}
               className="text-blue-500 hover:underline dark:text-blue-400 bg-blue-100 dark:bg-blue-800 px-3 py-1 rounded-full"
@@ -97,7 +95,21 @@ const BlogPost: React.FC<BlogPostOnlyProps> = ({
         ))}
       </div>
 
-      <div className="text-gray-800 dark:text-gray-300 mb-4">
+      {/* repost の表示 */}
+      {data.rePost && data.rePost.slice(0, 5) === "https" && (
+        <div className="repost-section bg-gray-100 dark:bg-gray-800 p-2 mb-4 rounded-md shadow">
+          Repost (Approved) :{" "}
+          <a
+            href={data.rePost}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 dark:text-blue-400 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-400"
+          >
+            Original Post
+          </a>
+        </div>
+      )}
+      <div className="text-gray-800 dark:text-gray-300 pt-2 mb-4">
         {data.description}
       </div>
       <p className="font-bold text-xl mb-2 text-gray-800 dark:text-gray-200">
