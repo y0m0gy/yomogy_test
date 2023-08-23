@@ -17,6 +17,9 @@ export default function Header() {
         <Link href="/synbio/page/1" className="text-white">
           Synbio
         </Link>
+        {/* <Link href="/app" className="text-white">
+          App
+        </Link> */}
 
         <DarkModeToggle />
       </nav>
