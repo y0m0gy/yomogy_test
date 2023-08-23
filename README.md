@@ -47,6 +47,6 @@
 
 ## LICENSE
 
-- このリポジトリのコード部分は、[MIT　LICENSE](/LICENSE)の下でライセンスされています。
+- このリポジトリのコード部分は、[MIT LICENSE](/LICENSE)の下でライセンスされています。
 - このリポジトリの記事部分は、[CC BY 4.0](/CONTENT_LICENSE)の下でライセンスされています。
 
