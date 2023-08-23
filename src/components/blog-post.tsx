@@ -29,12 +29,10 @@ const BlogPost: React.FC<BlogPostOnlyProps> = ({
     const handleCustomEvent = () => {
       tocbot.destroy();
       initTocbot();
-      console.log("tocbot init");
     };
 
     window.addEventListener("customNavigationEvent", handleCustomEvent);
 
-    // この部分を追加
     const handleRouteChange = () => {
       const event = new Event("customNavigationEvent");
       window.dispatchEvent(event);

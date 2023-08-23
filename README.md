@@ -42,4 +42,11 @@
 - **Dev ブランチの更新**: `Dev`ブランチへの push の際に、記事の確認や更新を自動で行います。
 - **main ブランチのマージ**: `main`ブランチへの Pull request が承認されたら、その内容を自動的に`dev`ブランチにマージします。
 
-より詳しいルールや設定に関しては、[こちら](https://docs.google.com/document/d/1FWIKMC0qhX1lNA9h32stjj3dL1AcozJRctZxywR8170/edit?usp=sharing)をご参照ください。
+より詳しいルールや設定に関しては、[こちら (要承認) ](https://docs.google.com/document/d/1FWIKMC0qhX1lNA9h32stjj3dL1AcozJRctZxywR8170/edit?usp=sharing)をご参照ください。
+
+
+## LICENSE
+
+- このリポジトリのコード部分は、[MIT LICENSE](/LICENSE)の下でライセンスされています。
+- このリポジトリの記事部分は、[CC BY 4.0](/CONTENT_LICENSE)の下でライセンスされています。
+
