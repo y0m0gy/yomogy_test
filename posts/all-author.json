@@ -1,13 +1,25 @@
 {
+  "Template": {
+    "name": "テンプレート",
+    "description": "テンプレートです。",
+    "twitter": "https://twitter.com/y0m0gy",
+    "image": "/images/authors/y0m0gy.png"
+  },
   "Yomogy": {
     "name": "Yomogy",
-    "description": "新規ユーザーです。プロフィールを更新してください。",
+    "description": "Yomogyです。",
     "twitter": "https://twitter.com/y0m0gy",
     "image": "/images/authors/y0m0gy.png"
   },
   "Yom": {
     "name": "Yom",
     "description": "新規ユーザーです。プロフィールを更新してください。",
+    "twitter": "https://twitter.com/y0m0gy",
+    "image": "/images/authors/y0m0gy.png"
+  },
+  "Yama": {
+    "name": "テンプレート",
+    "description": "テンプレートです。",
     "twitter": "https://twitter.com/y0m0gy",
     "image": "/images/authors/y0m0gy.png"
   }
