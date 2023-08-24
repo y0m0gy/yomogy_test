@@ -47,8 +47,16 @@ jobs:
               exit 1
             fi
           done
-      
 
+      - name: Output the commit message of B
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name 'GitHub Actions'
+          git config user.email 'actions@github.com'
+          COMMIT_MESSAGE=$(git log HEAD~2 -n 1 --pretty=format:"%s")
+          echo "Commit message of B: $COMMIT_MESSAGE"
+      
       # - name: Revert commit on failure
       #   if: failure()
       #   env:
