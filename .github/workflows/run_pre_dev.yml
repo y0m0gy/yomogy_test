@@ -46,9 +46,9 @@ jobs:
           echo $GITHUB_SHA
           git show --name-only --pretty="" $GITHUB_SHA
 
-          if [ $? -ne 0 ]; then
+          if [ $? -eq 0 ]; then
               echo "No JSON files were changed."
-              exit 1
+              exit 0
           fi
 
           JSON_FILES_CHANGED=$(git show --name-only --pretty="" $GITHUB_SHA | grep "\.json$")
