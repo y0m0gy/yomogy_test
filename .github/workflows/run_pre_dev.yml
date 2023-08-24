@@ -40,6 +40,9 @@ jobs:
 
       - name: Validate updated JSON files
         run: |
+          echo "Listing fetched commits:"
+          git log --oneline -n 10
+
           echo $GITHUB_SHA
           JSON_FILES_CHANGED=$(git show --name-only --pretty="" $GITHUB_SHA | grep "\.json$")
           if [[ ! -z "$JSON_FILES_CHANGED" ]]; then
