@@ -45,26 +45,26 @@ jobs:
 
           echo $GITHUB_SHA
           git show --name-only --pretty="" $GITHUB_SHA
-          echo $?
 
-          git show --name-only --pretty="" $GITHUB_SHA
+          if [ $? -ne 0 ]; then
+              echo "No JSON files were changed."
+              exit 1
+          fi
+
           JSON_FILES_CHANGED=$(git show --name-only --pretty="" $GITHUB_SHA | grep "\.json$")
-          echo JSON_FILES_CHANGED:$JSON_FILES_CHANGED
 
           if [ -z "$JSON_FILES_CHANGED" ]; then
               echo "No JSON files were changed."
               exit 0
+          else
+              for file in $JSON_FILES_CHANGED; do
+                  echo "Validating $file..."
+                  if ! cat $file | jq empty; then
+                      echo "Error: Invalid JSON in $file"
+                      exit 1
+                  fi
+              done
           fi
-          
-          # for file in $JSON_FILES_CHANGED; do
-          #     echo "Validating $file..."
-          #     if ! cat $file | jq empty; then
-          #         echo "Error: Invalid JSON in $file"
-          #         exit 1
-          #     fi
-          # done
-          
-
 
       - name: Output the commit message of B
         env:
