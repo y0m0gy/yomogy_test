@@ -45,19 +45,21 @@ jobs:
 
           echo $GITHUB_SHA
           git show --name-only --pretty="" $GITHUB_SHA
-
           JSON_FILES_CHANGED=$(git show --name-only --pretty="" $GITHUB_SHA | grep "\.json$")
-          if [[ ! -z "$JSON_FILES_CHANGED" ]]; then
-            for file in $JSON_FILES_CHANGED; do
+
+          if [ -z "$JSON_FILES_CHANGED" ]; then
+              echo "No JSON files were changed."
+              exit 0
+          fi
+          
+          for file in $JSON_FILES_CHANGED; do
               echo "Validating $file..."
               if ! cat $file | jq empty; then
-                echo "Error: Invalid JSON in $file"
-                exit 1
+                  echo "Error: Invalid JSON in $file"
+                  exit 1
               fi
-            done
-          else
-            echo "No JSON files were changed."
-          fi
+          done
+          
 
 
       - name: Output the commit message of B
