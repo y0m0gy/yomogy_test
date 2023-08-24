@@ -4,11 +4,32 @@ on:
   push:
     branches:
       - dev
-    paths:
-      - "**/*.json"
 
 jobs:
+  check-json-updated:
+    runs-on: ubuntu-latest
+
+    outputs:
+      updated: ${{ steps.check.outputs.updated }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Check if JSON files are updated
+        id: check
+        run: |
+          JSON_FILES_CHANGED=$(git diff --name-only HEAD~1 HEAD | grep "\.json$")
+          if [[ -z "$JSON_FILES_CHANGED" ]]; then
+            echo "No JSON files were updated."
+            echo "::set-output name=updated::false"
+          else
+            echo "::set-output name=updated::true"
+          fi
+
   validate:
+    needs: check-json-updated
+    if: needs.check-json-updated.outputs.updated == 'true'
     runs-on: ubuntu-latest
 
     steps:
@@ -33,4 +54,4 @@ jobs:
           git config user.name 'GitHub Actions'
           git config user.email 'actions@github.com'
           git revert HEAD
-          git push https://${{ env.GITHUB_TOKEN }}@github.com/your-username/your-repo-name.git HEAD:dev --force
+          git push https://${{ env.GITHUB_TOKEN }}@github.com/yomogyhub/yomogy_test.git HEAD:dev --force
