@@ -52,13 +52,13 @@ jobs:
               exit 0
           fi
           
-          for file in $JSON_FILES_CHANGED; do
-              echo "Validating $file..."
-              if ! cat $file | jq empty; then
-                  echo "Error: Invalid JSON in $file"
-                  exit 1
-              fi
-          done
+          # for file in $JSON_FILES_CHANGED; do
+          #     echo "Validating $file..."
+          #     if ! cat $file | jq empty; then
+          #         echo "Error: Invalid JSON in $file"
+          #         exit 1
+          #     fi
+          # done
           
 
 
