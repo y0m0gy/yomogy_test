@@ -38,6 +38,7 @@ jobs:
 
       - name: Validate updated JSON files
         run: |
+          echo $GITHUB_SHA
           JSON_FILES_CHANGED=$(git show --name-only --pretty="" $GITHUB_SHA | grep "\.json$")
           for file in $JSON_FILES_CHANGED; do
             echo "Validating $file..."
