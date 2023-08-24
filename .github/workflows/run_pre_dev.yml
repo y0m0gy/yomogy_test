@@ -40,12 +40,14 @@ jobs:
         run: |
           JSON_FILES_CHANGED=$(git show --name-only --pretty="" $GITHUB_SHA | grep "\.json$")
           for file in $JSON_FILES_CHANGED; do
+            echo "Validating $file..."
             cat $file | jq empty
             if [ $? -ne 0 ]; then
-              echo "Invalid JSON in $file"
+              echo "Error: Invalid JSON in $file"
               exit 1
             fi
           done
+
       # - name: Revert commit on failure
       #   if: failure()
       #   env:
