@@ -19,7 +19,7 @@ jobs:
       - name: Check if JSON files are updated
         id: check
         run: |
-          JSON_FILES_CHANGED=$(git diff --name-only HEAD~1 HEAD | grep "\.json$")
+          JSON_FILES_CHANGED=$(git show --name-only --pretty="" $GITHUB_SHA | grep "\.json$")
           if [[ -z "$JSON_FILES_CHANGED" ]]; then
             echo "No JSON files were updated."
             echo "::set-output name=updated::false"
@@ -36,22 +36,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Validate JSON
+      - name: Validate updated JSON files
         run: |
-          for file in $(find . -name "*.json"); do
+          JSON_FILES_CHANGED=$(git show --name-only --pretty="" $GITHUB_SHA | grep "\.json$")
+          for file in $JSON_FILES_CHANGED; do
             cat $file | jq empty
             if [ $? -ne 0 ]; then
               echo "Invalid JSON in $file"
               exit 1
             fi
           done
-
-      - name: Revert commit on failure
-        if: failure()
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git config user.name 'GitHub Actions'
-          git config user.email 'actions@github.com'
-          git revert HEAD
-          git push https://${{ env.GITHUB_TOKEN }}@github.com/yomogyhub/yomogy_test.git HEAD:dev --force
+      # - name: Revert commit on failure
+      #   if: failure()
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   run: |
+      #     git config user.name 'GitHub Actions'
+      #     git config user.email 'actions@github.com'
+      #     git revert HEAD
+      #     git push https://${{ env.GITHUB_TOKEN }}@github.com/yomogyhub/yomogy_test.git HEAD:dev --force
