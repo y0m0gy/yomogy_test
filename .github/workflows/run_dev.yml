@@ -1,14 +1,15 @@
 name: Run NPX
-
 # on:
-#   pull_request:
+#   push:
 #     branches:
-#       - staging
-#     paths: "*"
+#       - dev
+
+# run_pre_dev.yml に依存。それが成功すれば実行される。
 on:
-  push:
-    branches:
-      - dev
+  workflow_run:
+    workflows: ["JSON Validation"]
+    types:
+      - completed
 
 permissions:
   contents: write
