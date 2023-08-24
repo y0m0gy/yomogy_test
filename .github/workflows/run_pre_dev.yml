@@ -45,6 +45,9 @@ jobs:
 
           echo $GITHUB_SHA
           git show --name-only --pretty="" $GITHUB_SHA
+          echo $?
+
+          git show --name-only --pretty="" $GITHUB_SHA
           JSON_FILES_CHANGED=$(git show --name-only --pretty="" $GITHUB_SHA | grep "\.json$")
           echo JSON_FILES_CHANGED:$JSON_FILES_CHANGED
 
