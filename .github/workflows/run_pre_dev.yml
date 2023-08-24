@@ -46,13 +46,11 @@ jobs:
           git config user.email 'actions@github.com'
           COMMIT_MESSAGE=$(git log HEAD~2 -n 1 --pretty=format:"%s")
           echo "Commit message of B: $COMMIT_MESSAGE"
+          COMMIT_MESSAGE=$(git log HEAD~1 -n 1 --pretty=format:"%s")
+          echo "Commit message of B: $COMMIT_MESSAGE"
 
       - name: Validate updated JSON files
         run: |
-          echo "Listing fetched commits:"
-          git log --oneline -n 10
-
-          echo $GITHUB_SHA
           git show --name-only --pretty="" $GITHUB_SHA
 
           if [ $? -eq 0 ]; then
@@ -76,12 +74,12 @@ jobs:
           fi
 
       
-      # - name: Revert commit on failure
-      #   if: failure()
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   run: |
-      #     git config user.name 'GitHub Actions'
-      #     git config user.email 'actions@github.com'
-      #     git revert HEAD
-      #     git push https://${{ env.GITHUB_TOKEN }}@github.com/yomogyhub/yomogy_test.git HEAD:dev --force
+      - name: Revert commit on failure
+        if: failure()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name 'GitHub Actions'
+          git config user.email 'actions@github.com'
+          git revert HEAD~1
+          git push https://${{ env.GITHUB_TOKEN }}@github.com/yomogyhub/yomogy_test.git HEAD:dev --force
