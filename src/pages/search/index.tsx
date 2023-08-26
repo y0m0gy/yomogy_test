@@ -3,7 +3,7 @@ import Script from "next/script";
 import { FrameTemplate } from "../../components/frame-template";
 import Sidebar from "../../components/sidebar";
 import { getBasicContent } from "../api/get-posts-category";
-import { PageNationProps, PostLists } from "../../../utils/posts-type";
+import { PageNationProps, PostLists } from "../../utils/posts-type";
 
 export async function getStaticProps() {
   const basicContent = await getBasicContent();
