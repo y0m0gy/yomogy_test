@@ -22,10 +22,19 @@ rePost: "https:yomogy.com"
 </svg>
 
 <h2>はじめての投稿h2-2</h2>
-{/* Linkcard形式で投稿したいときは、以下のように記述する。sizeは、"small"か"large"。*/}
+{/* Linkcard形式で掲載したい時は、以下のように記述する。sizeは、"small"か"large"。*/}
+{/* SNSを掲載したい時は、以下のように記述する。X, tiktok, instagram, linkedin ,youtube, facebook, pinterest*/}
+{/* 埋め込みリンクの取得方法の参考 https://www.npmjs.com/package/react-social-media-embeds */}
+
 <LinkCard url="https://yomogy.com/synbio/biosensor-overview/" size="small" />
 or
 <LinkCard url="https://yomogy.com/synbio/biosensor-overview/" size="large" />
+
+<SNSCard url="https://twitter.com/y0m0gy/status/1642891661276745728" />
+<SNSCard url="https://www.tiktok.com/@igemcommunity/video/7133988878909803782" />
+<SNSCard url="https://www.instagram.com/p/CuOeA7KqzCK/" />
+<SNSCard url="https://www.linkedin.com/embed/feed/update/urn:li:share:7100499274810978304" />
+<SNSCard url="https://www.youtube.com/embed/qSTFLJ0woXI?si=bUnHQOGvJ4jWQmR5" />
 
 ```js
 console.log("Hello World: コードハイライトのテスト");
