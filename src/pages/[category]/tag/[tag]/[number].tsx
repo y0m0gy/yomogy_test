@@ -68,7 +68,7 @@ export default function TagPage({
     <FrameTemplate
       leftComponent={
         <div>
-          <PageList title={title} posts={posts} />
+          <PageList title={`#${title}`} posts={posts} />
           <Pagination
             link={`${posts[0].category}/tag/${title}`}
             page={page}

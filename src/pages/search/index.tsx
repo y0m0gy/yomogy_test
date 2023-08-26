@@ -29,13 +29,15 @@ export default function SearchResults({
     setQuery(urlParams.get("q"));
   }, []);
 
-  const title = query ? `${query} の検索結果` : "検索結果";
+  const title = query ? `"${query}" の検索結果` : "検索結果";
 
   return (
     <FrameTemplate
       leftComponent={
         <div>
-          <h1>{title}</h1>
+          <h1 className="text-4xl mb-4 border-b border-gray-300 dark:border-gray-700 pb-2">
+            {title}
+          </h1>
           <Script
             async
             src="https://cse.google.com/cse.js?cx=0334e62c8db274d20"
