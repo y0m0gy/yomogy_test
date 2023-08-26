@@ -20,7 +20,7 @@ const BlogPost: React.FC<BlogPostOnlyProps> = ({
       tocbot.init({
         tocSelector: ".toc",
         contentSelector: ".mdx-content",
-        headingSelector: "h1, h2, h3",
+        headingSelector: "h2, h3",
       });
     };
 
