@@ -67,7 +67,7 @@ export async function processMDXContent(
 ): Promise<string> {
   let processedContent = originalContent;
 
-  const linkCardPattern = /<LinkCard url="([^"]+)" \/>/g;
+  const linkCardPattern = /<LinkCard url="([^"]+)"/g;
 
   let match;
   while ((match = linkCardPattern.exec(originalContent)) !== null) {
@@ -75,7 +75,7 @@ export async function processMDXContent(
     const metadata = await fetchPageMetadata(url);
 
     // 元の<LinkCard>タグを新しいタグに置き換えます。
-    const replacement = `<LinkCard metadata={${JSON.stringify(metadata)}} />`;
+    const replacement = `<LinkCard metadata={${JSON.stringify(metadata)}}`;
     processedContent = processedContent.replace(match[0], replacement);
   }
 
