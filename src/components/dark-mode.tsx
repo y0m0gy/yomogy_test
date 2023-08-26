@@ -47,7 +47,7 @@ const DarkModeToggle: React.FC = () => {
   return (
     <div
       onClick={() => setDarkMode(!darkMode)}
-      className="w-20 p-1 rounded-full bg-gray-200 dark:bg-gray-800 cursor-pointer transition-all duration-300 relative overflow-hidden"
+      className="w-20 h-7 p-1 rounded-full bg-gray-200 dark:bg-gray-800 cursor-pointer transition-all duration-300 relative overflow-hidden"
     >
       <div
         className={`absolute top-1 left-1 h-5 w-10 rounded-full bg-gray-800 dark:bg-gray-200 transform transition-transform duration-300 ${

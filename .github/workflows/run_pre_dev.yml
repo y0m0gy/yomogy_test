@@ -35,26 +35,35 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 10
 
       - name: Validate updated JSON files
         run: |
-          echo $GITHUB_SHA
-          JSON_FILES_CHANGED=$(git show --name-only --pretty="" $GITHUB_SHA | grep "\.json$")
-          for file in $JSON_FILES_CHANGED; do
-            echo "Validating $file..."
-            if ! cat $file | jq empty; then
-              echo "Error: Invalid JSON in $file"
-              exit 1
-            fi
-          done
-      
+          git show --name-only --pretty="" $GITHUB_SHA | grep "\.json$" || exit 0
 
-      # - name: Revert commit on failure
-      #   if: failure()
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   run: |
-      #     git config user.name 'GitHub Actions'
-      #     git config user.email 'actions@github.com'
-      #     git revert HEAD
-      #     git push https://${{ env.GITHUB_TOKEN }}@github.com/yomogyhub/yomogy_test.git HEAD:dev --force
+          JSON_FILES_CHANGED=$(git show --name-only --pretty="" $GITHUB_SHA | grep "\.json$")
+
+          if [ -z "$JSON_FILES_CHANGED" ]; then
+              echo "No JSON files were changed."
+              exit 0
+          else
+              for file in $JSON_FILES_CHANGED; do
+                  echo "Validating $file..."
+                  if ! cat $file | jq empty; then
+                      echo "Error: Invalid JSON in $file"
+                      exit 1
+                  fi
+              done
+          fi
+
+      
+      - name: Revert commit on failure
+        if: failure()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name 'GitHub Actions'
+          git config user.email 'actions@github.com'
+          git revert HEAD
+          git push https://${{ env.GITHUB_TOKEN }}@github.com/yomogyhub/yomogy_test.git HEAD:dev --force
