@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import { BlogPostOnlyProps } from "../utils/posts-type";
 import { AuthorDetails } from "./author";
 import ShareButtons from "../components/share-buttons";
+import LinkCard from "../components/link-card";
 import AdComponent from "../components/ad";
 import tocbot from "tocbot";
 import React, { useEffect } from "react";
@@ -115,7 +116,7 @@ const BlogPost: React.FC<BlogPostOnlyProps> = ({
       </p>
       <div className="toc bg-white dark:bg-gray-700 p-4 rounded shadow-md mb-4 divide-y divide-gray-300 dark:divide-gray-600"></div>
       <div className="mdx-content mb-4">
-        <MDXRemote {...content} />
+        <MDXRemote {...content} components={{ LinkCard }} />
       </div>
       <div className="flex justify-between items-center mt-4 mb-4">
         <div className="align-items">

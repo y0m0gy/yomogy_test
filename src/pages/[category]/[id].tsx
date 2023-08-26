@@ -6,6 +6,7 @@ import {
   getAuthorDetails,
 } from "../api/get-posts-category";
 import { Category, PostID, BlogPostProps } from "../../utils/posts-type";
+import { processMDXContent } from "../../utils/mdxLinkCardPlugin";
 
 import Seo from "../../components/seo";
 import { FrameTemplate } from "../../components/frame-template";
@@ -67,7 +68,8 @@ export async function getStaticProps({
   }
 
   // console.log(blogPostProps.content);
-  const processedContent = addUniqueIdsToHeadings(blogPostProps.content ?? "");
+  const processedContent1 = addUniqueIdsToHeadings(blogPostProps.content ?? "");
+  const processedContent = await processMDXContent(processedContent1);
   const mdxSource = processedContent
     ? await serialize(processedContent, {
         mdxOptions: {
