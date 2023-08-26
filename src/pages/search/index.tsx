@@ -1,8 +1,26 @@
 import { useState, useEffect } from "react";
 import Script from "next/script";
 import { FrameTemplate } from "../../components/frame-template";
+import Sidebar from "../../components/sidebar";
+import { getBasicContent } from "../api/get-posts-category";
+import { PageNationProps, PostLists } from "../../../utils/posts-type";
 
-export default function SearchResults() {
+export async function getStaticProps() {
+  const basicContent = await getBasicContent();
+  const { newPosts, recommendPosts } = basicContent.props;
+
+  return {
+    props: { newPosts, recommendPosts },
+  };
+}
+
+export default function SearchResults({
+  newPosts,
+  recommendPosts,
+}: {
+  newPosts: PostLists;
+  recommendPosts: PostLists;
+}) {
   const [query, setQuery] = useState<string | null>(null);
 
   // クライアントサイドでURLのクエリを取得
@@ -26,14 +44,13 @@ export default function SearchResults() {
         </div>
       }
       rightComponent={
-        <div>
-          <h1>{title}</h1>
-          <Script
-            async
-            src="https://cse.google.com/cse.js?cx=0334e62c8db274d20"
-          ></Script>
-          <div className="gcse-searchresults-only"></div>
-        </div>
+        <>
+          <Sidebar title={newPosts.title} relatedPosts={newPosts.posts} />
+          <Sidebar
+            title={recommendPosts.title}
+            relatedPosts={recommendPosts.posts}
+          />
+        </>
       }
     />
   );
