@@ -8,30 +8,30 @@
 - 必要なパッケージをインストールします。
 
 ```bash
-$ npm install
+npm install
 ```
 
 - デベロップメントサーバーを起動します。
 
 ```bash
-$ npm run dev
+npm run dev
 ```
 
 ## 2. デプロイ手順
 
 1. 以下のコマンドを実行して、必要な関数を実行します。
 
-```bash
-$ npx ts-node runFunction.ts
-```
+   ```bash
+   npx ts-node runFunction.ts
+   ```
 
-- 注意: GitHub Actions には自動実行の設定が含まれており、`dev` ブランチに変更が追加された際に上記のコマンドが実行されます。
+   - 注意: GitHub Actions には自動実行の設定が含まれており、`dev` ブランチに変更が追加された際に上記のコマンドが実行されます。
 
 2. 生成コマンドを使用して、静的ページを生成します。
 
-```bash
-$ npm generate
-```
+   ```bash
+   npm generate
+   ```
 
 ## 3. MDX を使用したブログ機能
 
@@ -50,10 +50,11 @@ $ npm generate
 
 ## 6. その他の機能
 
+- mdx ファイルの追加のみで、カバー画像の自動作成を行います。(要実行`$ npx ts-node runFunction.ts`n)
 - RSS フィードとサイトマップをサポートしています。
 - SNS へのシェア機能をサポートしています。
 - 記事ページでは、URL を使用して、SNS や他のブログ記事へのリンクカードを簡単に作成できます。
 - SEO のための情報を追記することができます。
-- Google Analytics, Google AdSense をサポートしています。
+- Google Analytics, Google AdSense をサポートしています。 Google AdSense を使用する場合は、public/ads.txt を追加してください。
 
 ---
