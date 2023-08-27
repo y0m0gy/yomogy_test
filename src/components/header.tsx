@@ -1,8 +1,11 @@
 // header.tsx
+import { useState } from "react";
 import Link from "next/link";
 import DarkModeToggle from "./dark-mode";
 
 export default function Header() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <header className="flex justify-between bg-[#5EAD43] p-4">
       <div className="text-xl font-bold">
@@ -10,19 +13,17 @@ export default function Header() {
           <p>Yomogy</p>
         </Link>
       </div>
-      <nav className="flex gap-4 items-center">
+
+      {/* デスクトップ向けのナビゲーション */}
+      <nav className="hidden md:flex gap-4 items-center">
         <Link href="/igem/page/1" className="text-white">
           iGEM
         </Link>
         <Link href="/synbio/page/1" className="text-white">
           Synbio
         </Link>
-        {/* <Link href="/app" className="text-white">
-      App
-    </Link> */}
-
+        .{/*(デスクトップのみ) */}
         <DarkModeToggle />
-
         {/* 検索窓 */}
         <div className="bg-gray-200 rounded-full h-8 pr-1 flex items-center">
           <form
@@ -54,6 +55,42 @@ export default function Header() {
           </form>
         </div>
       </nav>
+
+      {/* モバイル向けのハンバーガーアイコン */}
+      <button
+        className="md:hidden flex items-center"
+        onClick={() => setMenuOpen(!menuOpen)}
+      >
+        {/* ハンバーガーアイコン (SVG) */}
+        <svg
+          width="24"
+          height="24"
+          fill="currentColor"
+          className="h-6 w-6"
+          viewBox="0 0 24 24"
+        >
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M4 5C4 4.44772 4.44772 4 5 4H19C19.5523 4 20 4.44772 20 5C20 5.55228 19.5523 6 19 6H5C4.44772 6 4 5.55228 4 5ZM4 12C4 11.4477 4.44772 11 5 11H19C19.5523 11 20 11.4477 20 12C20 12.5523 19.5523 13 19 13H5C4.44772 13 4 12.5523 4 12ZM5 18C4.44772 18 4 18.4477 4 19C4 19.5523 4.44772 20 5 20H19C19.5523 20 20 19.5523 20 19C20 18.4477 19.5523 18 19 18H5Z"
+          />
+        </svg>
+      </button>
+
+      {/* モバイル向けのドロップダウンメニュー */}
+      {menuOpen && (
+        <nav className="absolute top-full left-0 w-full bg-[#5EAD43] mt-4 md:hidden flex flex-col gap-4 p-4">
+          <Link href="/igem/page/1" className="text-white">
+            iGEM
+          </Link>
+          <Link href="/synbio/page/1" className="text-white">
+            Synbio
+          </Link>
+          {/* <Link href="/app" className="text-white">
+            App
+          </Link> */}
+        </nav>
+      )}
     </header>
   );
 }

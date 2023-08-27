@@ -1,6 +1,4 @@
 import React from "react";
-
-// https://www.npmjs.com/package/react-social-media-embed
 import {
   FacebookEmbed,
   InstagramEmbed,
@@ -33,67 +31,40 @@ const getPlatformFromUrl = (
   if (hostname.includes("linkedin")) return "linkedin";
   if (hostname.includes("pinterest")) return "pinterest";
   if (hostname.includes("tiktok")) return "tiktok";
-  if (hostname.includes("twitter")) return "twitter";
+  if (hostname.includes("twitter") || hostname.includes("x.com"))
+    return "twitter";
   if (hostname.includes("youtube")) return "youtube";
 
   return null;
 };
 
-interface SNSCardProps {
-  url: string;
-}
+const socialEmbeds = {
+  facebook: FacebookEmbed,
+  instagram: InstagramEmbed,
+  linkedin: LinkedInEmbed,
+  pinterest: PinterestEmbed,
+  tiktok: TikTokEmbed,
+  twitter: TwitterEmbed,
+  youtube: YouTubeEmbed,
+};
 
 const SNSCard: React.FC<SNSCardProps> = ({ url }) => {
   const platform = getPlatformFromUrl(url);
 
-  switch (platform) {
-    case "facebook":
-      return (
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <FacebookEmbed url={url} />
-        </div>
-      );
-    case "instagram":
-      return (
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <InstagramEmbed url={url} />
-        </div>
-      );
-    case "linkedin":
-      return (
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <LinkedInEmbed url={url} />
-        </div>
-      );
-    case "pinterest":
-      return (
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <PinterestEmbed url={url} />
-        </div>
-      );
-    case "tiktok":
-      return (
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <TikTokEmbed url={url} />
-        </div>
-      );
-
-    case "twitter":
-      return (
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <TwitterEmbed url={url} />
-        </div>
-      );
-
-    case "youtube":
-      return (
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <YouTubeEmbed url={url} />
-        </div>
-      );
-    default:
-      return <p>Unsupported platform or invalid URL.</p>;
+  if (!platform) {
+    return <p>Unsupported platform or invalid URL.</p>;
   }
+  const EmbedComponent = socialEmbeds[platform];
+
+  if (!EmbedComponent) {
+    return <p>Unsupported platform or invalid URL.</p>;
+  }
+
+  return (
+    <div className="flex justify-center max-w-full">
+      <EmbedComponent url={url} />
+    </div>
+  );
 };
 
 export default SNSCard;
