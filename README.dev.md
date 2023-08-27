@@ -55,6 +55,8 @@ npm run dev
 - SNS へのシェア機能をサポートしています。
 - 記事ページでは、URL を使用して、SNS や他のブログ記事へのリンクカードを簡単に作成できます。
 - SEO のための情報を追記することができます。
+- 記事の編集要求を行うことができます。(要 Github 連携)
 - Google Analytics, Google AdSense をサポートしています。 Google AdSense を使用する場合は、public/ads.txt を追加してください。
+- 検索は Google のカスタム検索を使用します。
 
 ---
