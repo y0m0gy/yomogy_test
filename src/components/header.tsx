@@ -76,9 +76,9 @@ function HamburgerButton({ menuOpen, setMenuOpen }: HamburgerButtonProps) {
       <svg
         width="24"
         height="24"
-        fill="currentColor"
         className="h-6 w-6"
         viewBox="0 0 24 24"
+        fill="white"
       >
         <path
           fillRule="evenodd"

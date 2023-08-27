@@ -6,8 +6,8 @@ import {
   getAuthorDetails,
 } from "../api/get-posts-category";
 import { Category, PostID, BlogPostProps } from "../../utils/posts-type";
-import { addUniqueIdsToHeadings } from "../../utils/mdxTagPlugin";
-import { processMDXContent } from "../../utils/mdxLinkCardPlugin";
+import { addUniqueIdsToHeadings } from "../../utils/mdx-htag";
+import { processMDXContent } from "../../utils/mdx-link-card";
 
 import Seo from "../../components/seo";
 import { FrameTemplate } from "../../components/frame-template";
