@@ -3,7 +3,7 @@ import { SidebarProps } from "../utils/posts-type";
 
 const Sidebar: React.FC<SidebarProps> = ({ title, relatedPosts }) => {
   return (
-    <div className="w-full md:w-100 p-4 mb-4 bg-white dark:bg-gray-900 rounded shadow-lg">
+    <div className="w-full md:w-100 p-2 md:p-4 mb-4 bg-white dark:bg-gray-900 rounded shadow-lg">
       <div className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-200">
         {title}
       </div>

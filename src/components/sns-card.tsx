@@ -61,9 +61,28 @@ const SNSCard: React.FC<SNSCardProps> = ({ url }) => {
   }
 
   return (
-    <div className="flex justify-center max-w-full">
-      <EmbedComponent url={url} />
-    </div>
+    <>
+      <div className="flex justify-center max-w-full">
+        <EmbedComponent url={url} />
+      </div>
+      {/* コンポーネントにスコープされたCSS */}
+      <style jsx>{`
+        .youtube-iframe {
+          position: relative;
+          overflow: hidden;
+          width: 100%;
+          padding-top: 56.25%; /* 16:9のアスペクト比 */
+        }
+
+        .youtube-iframe iframe {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+        }
+      `}</style>
+    </>
   );
 };
 
