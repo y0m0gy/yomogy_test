@@ -105,3 +105,12 @@ body {
 .blog_main h3.dark {
   border-left-color: #7b7b7b; /* 左の線の色をダークモードに適した色に変更 */
 }
+
+/* youtubeのリンクの埋め込み */
+.youtube-iframe {
+  max-width: 100%;
+}
+
+.youtube-iframe iframe {
+  max-width: 100%;
+}
