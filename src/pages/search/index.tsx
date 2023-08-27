@@ -3,7 +3,7 @@ import Script from "next/script";
 import { FrameTemplate } from "../../components/frame-template";
 import Sidebar from "../../components/sidebar";
 import { getBasicContent } from "../api/get-posts-category";
-import { PageNationProps, PostLists } from "../../utils/posts-type";
+import { PostLists } from "../../utils/posts-type";
 
 export async function getStaticProps() {
   const basicContent = await getBasicContent();
@@ -38,10 +38,7 @@ export default function SearchResults({
           <h1 className="text-4xl mb-4 border-b border-gray-300 dark:border-gray-700 pb-2">
             {title}
           </h1>
-          <Script
-            async
-            src="https://cse.google.com/cse.js?cx=0334e62c8db274d20"
-          ></Script>
+          <Script async src={process.env.SEARCH_BASE_URL}></Script>
           <div className="gcse-searchresults-only"></div>
         </div>
       }

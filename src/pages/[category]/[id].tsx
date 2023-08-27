@@ -6,6 +6,8 @@ import {
   getAuthorDetails,
 } from "../api/get-posts-category";
 import { Category, PostID, BlogPostProps } from "../../utils/posts-type";
+import { addUniqueIdsToHeadings } from "../../utils/mdx-htag";
+import { processMDXContent } from "../../utils/mdx-link-card";
 
 import Seo from "../../components/seo";
 import { FrameTemplate } from "../../components/frame-template";
@@ -49,25 +51,9 @@ export async function getStaticProps({
     blogPostProps.data.id = null;
   }
 
-  // "h1", "h2", "h3"を見つけたら、idを付与する。コードブロックの中も除外できないので注意
-  function addUniqueIdsToHeadings(content: string): string {
-    const headings = ["h1", "h2", "h3"];
-    let idCounter = 0;
-
-    headings.forEach((tag) => {
-      const regex = new RegExp(`<${tag}>((.|\\n)*?)<\/${tag}>`, "g");
-      content = content.replace(regex, (match, innerText) => {
-        const id =
-          innerText.toLowerCase().replace(/\s+/g, "-") + "-" + idCounter++;
-        return `<${tag} id="${id}">${innerText}</${tag}>`;
-      });
-    });
-
-    return content;
-  }
-
-  // console.log(blogPostProps.content);
-  const processedContent = addUniqueIdsToHeadings(blogPostProps.content ?? "");
+  // mdx
+  const processedContent1 = addUniqueIdsToHeadings(blogPostProps.content ?? ""); // "h1", "h2", "h3"を見つけたら、idを付与する。コードブロックの中も除外できないので注意
+  const processedContent = await processMDXContent(processedContent1); // for link card. コードブロックの中も除外できないので注意
   const mdxSource = processedContent
     ? await serialize(processedContent, {
         mdxOptions: {

@@ -1,12 +1,4 @@
-import { Inter } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
-
-import {
-  getCategoriesPagePaths,
-  getListData,
-  getBasicContent,
-} from "./api/get-posts-category";
+import { getListData, getBasicContent } from "./api/get-posts-category";
 import { FrameTemplate } from "../components/frame-template";
 import PageList from "../components/page-list";
 import { PostLists, PageNationProps } from "../utils/posts-type";
@@ -51,30 +43,26 @@ export default function Home({
   recommendPosts,
 }: PageNationProps & { newPosts: PostLists; recommendPosts: PostLists }) {
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between ${inter.className}`}
-    >
-      <FrameTemplate
-        leftComponent={
-          <div>
-            <PageList title={title} posts={posts} />
-            <Pagination
-              link={`${title}/page`}
-              page={page}
-              totalPages={totalPages}
-            />
-          </div>
-        }
-        rightComponent={
-          <>
-            <Sidebar title={newPosts.title} relatedPosts={newPosts.posts} />
-            <Sidebar
-              title={recommendPosts.title}
-              relatedPosts={recommendPosts.posts}
-            />
-          </>
-        }
-      />
-    </main>
+    <FrameTemplate
+      leftComponent={
+        <div>
+          <PageList title={title} posts={posts} />
+          <Pagination
+            link={`${title}/page`}
+            page={page}
+            totalPages={totalPages}
+          />
+        </div>
+      }
+      rightComponent={
+        <>
+          <Sidebar title={newPosts.title} relatedPosts={newPosts.posts} />
+          <Sidebar
+            title={recommendPosts.title}
+            relatedPosts={recommendPosts.posts}
+          />
+        </>
+      }
+    />
   );
 }
