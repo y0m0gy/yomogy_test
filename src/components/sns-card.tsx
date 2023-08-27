@@ -71,7 +71,6 @@ const SNSCard: React.FC<SNSCardProps> = ({ url }) => {
           position: relative;
           overflow: hidden;
           width: 100%;
-          padding-top: 56.25%; /* 16:9のアスペクト比 */
         }
 
         .youtube-iframe iframe {
