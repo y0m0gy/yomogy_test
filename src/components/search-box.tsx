@@ -44,7 +44,7 @@ const MobileSearchBox = () => {
       {isInputVisible && (
         <div
           className="absolute top-0 left-0 pr-5 h-8 flex items-center z-10"
-          style={{ width: "98vw" }}
+          style={{ width: "97vw" }}
         >
           <SearchForm />
         </div>
@@ -70,11 +70,11 @@ const SearchForm = () => (
   >
     <SearchButton type="submit" color="rgb(151, 151, 151)" />
     <input
-      className="w-full h-6 border-none outline-none bg-gray-200 py-1 rounded-full"
+      className=" h-6 border-none outline-none bg-gray-200 py-1 rounded-full"
       type="search"
       name="q"
       placeholder="サイトを検索"
-      style={{ color: "black", caretColor: "black" }}
+      style={{ color: "black", caretColor: "black", width: "82%" }}
     />
   </form>
 );

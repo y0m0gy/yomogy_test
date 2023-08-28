@@ -42,6 +42,9 @@ function Logo() {
     <div className="text-xl font-bold mx-auto md:mx-0">
       <Link href="/" className="text-white">
         <p>Yomogy</p>
+        {/* // svgに変更予定
+        <svg></svg> 
+        */}
       </Link>
     </div>
   );
