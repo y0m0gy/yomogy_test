@@ -43,7 +43,7 @@ function Logo() {
       <Link href="/" className="text-white">
         <p>Yomogy</p>
         {/* // svgに変更予定
-        <svg></svg> 
+        <svg>public/igemjapanlogo_transparent.png</svg> 
         */}
       </Link>
     </div>
