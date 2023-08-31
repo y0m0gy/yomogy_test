@@ -1,14 +1,20 @@
-name: JSON Validation & Run NPX
+name: Run NPX
 
 on:
-  push:
-    branches:
-      - dev
-    paths:
-      - 'posts/**.json'
-      - 'posts/blog/**'
-      - 'public/images/blog/**'
-      - 'public/basic.png'
+  workflow_run:
+    workflows: ["JSON Validation"]
+    types:
+      - completed
+  
+  # andにしたいけどできないからパス
+  # push:
+  #   branches:
+  #     - dev
+  #   paths:
+  #     - 'posts/**.json'
+  #     - 'posts/blog/**'
+  #     - 'public/images/blog/**'
+  #     - 'public/basic.png'
 
 jobs:
   check-json-updated:
