@@ -22,14 +22,16 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
-      - name: Get list of commits since last push
+      - name: Get list of commits since last push on dev branch
         id: get_commits
         run: |
-          git fetch
+          git fetch origin dev
           COMMITS=$(git rev-list ${{ github.event.before }}..${{ github.sha }})
           echo "::set-output name=commits::$COMMITS"
-      
+    
       - name: Check if specified paths are updated
         id: check_paths
         run: |
