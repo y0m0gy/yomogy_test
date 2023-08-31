@@ -2,7 +2,6 @@ import { FrameTemplate } from "../../components/frame-template";
 import Sidebar from "../../components/sidebar";
 import { getBasicContent } from "../api/get-posts-category";
 import { PostLists } from "../../utils/posts-type";
-import Link from "next/link";
 
 export async function getStaticProps() {
   const basicContent = await getBasicContent();

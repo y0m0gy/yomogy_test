@@ -43,17 +43,22 @@ export interface ListCount {
 }
 
 // Define the type for props
-export type PageNationProps = {
+export interface PageNationProps {
   posts: Post[];
   title: string;
   page: number;
   totalPages: number;
-};
+}
 
-export type SidebarProps = {
+export interface SidebarProps {
   title: string;
   relatedPosts: Post[];
-};
+}
+
+export interface AdjacentPosts {
+  beforeAdjacentPost: { id: string; title: string; category: string } | null;
+  afterAdjacentPost: { id: string; title: string; category: string } | null;
+}
 
 export interface BlogPostProps {
   category: string;
@@ -62,6 +67,7 @@ export interface BlogPostProps {
   data: Post;
   relatedPosts: Post[];
   author: AuthorData;
+  adjacentPosts: AdjacentPosts;
 }
 
 export interface BlogPostOnlyProps {
@@ -69,6 +75,7 @@ export interface BlogPostOnlyProps {
   data: Post;
   author: AuthorData;
   id: string;
+  adjacentPosts: AdjacentPosts;
 }
 
 export interface AuthorData {

@@ -9,6 +9,7 @@ import {
   PostID,
   PostLists,
   AuthorData,
+  AdjacentPosts,
 } from "../../utils/posts-type";
 
 import { createImage } from "./make-fig";
@@ -132,15 +133,11 @@ export async function createJsonForAuthorsAndPosts() {
   fs.writeFileSync(postsJsonPath, JSON.stringify(allPostsData, null, 2));
 }
 
-// Common function to get all posts
+// all-blog.jsonの情報を配列化して返す
 export async function getAllPosts(): Promise<PostData[]> {
   const jsonPath = path.join(process.cwd(), "posts", "all-blog.json");
-
-  // Read the JSON file
   const jsonString = fs.readFileSync(jsonPath, "utf8");
   const allPostsData: Record<string, PostData> = JSON.parse(jsonString);
-
-  // Convert the object to an array
   const allPostsArray: PostData[] = Object.values(allPostsData);
 
   return allPostsArray;
@@ -329,14 +326,7 @@ export async function getListData(
 
 // authorごとの記事リストを取得する。この関数は、all-blog.jsonファイルを読み込み、その内容をJavaScriptオブジェクトに変換します。その後、このオブジェクトの値を取得して配列に変換し、指定された著者の投稿だけをフィルタリングします。最後に、投稿を日付順にソートして返します。
 export async function getPostsByAuthor(author: string): Promise<PostData[]> {
-  const jsonPath = path.join(process.cwd(), "posts", "all-blog.json");
-
-  // Read the JSON file
-  const jsonString = fs.readFileSync(jsonPath, "utf8");
-  const allPostsData: Record<string, PostData> = JSON.parse(jsonString);
-
-  // Convert the object to an array
-  const allPostsArray: PostData[] = Object.values(allPostsData);
+  const allPostsArray: PostData[] = await getAllPosts();
 
   // Filter the posts by author
   return allPostsArray
@@ -441,9 +431,37 @@ export function getAuthorDetails(authorName: string): AuthorData {
   return authorDetails;
 }
 
+// 前後の記事を取得する
+export async function getAdjacentPosts(
+  currentId: string
+): Promise<AdjacentPosts> {
+  // JSONデータを配列に変換する
+  const postArray: PostData[] = await getAllPosts();
+  const sortedPosts = postArray.sort(sortByPublishedDate);
+  const currentIndex = sortedPosts.findIndex((post) => post.id === currentId);
+
+  return {
+    beforeAdjacentPost:
+      currentIndex < postArray.length - 1
+        ? {
+            id: postArray[currentIndex + 1].id,
+            title: postArray[currentIndex + 1].title,
+            category: postArray[currentIndex + 1].category,
+          }
+        : null,
+
+    afterAdjacentPost:
+      currentIndex > 0
+        ? {
+            id: postArray[currentIndex - 1].id,
+            title: postArray[currentIndex - 1].title,
+            category: postArray[currentIndex - 1].category,
+          }
+        : null,
+  };
+}
+
 // 記事の並び替え 最新→古い
 function sortByPublishedDate(a: any, b: any): number {
-  return new Date(b.publishedAt).getTime() > new Date(a.publishedAt).getTime()
-    ? 1
-    : -1;
+  return new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime();
 }
