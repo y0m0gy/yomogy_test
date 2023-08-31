@@ -35,7 +35,7 @@ export default function Footer() {
       </div>
       <div className="flex-1">
         <h2>Legal</h2>
-        <Link href="/">
+        <Link href="/privacy">
           <p>Privacy</p>
         </Link>
       </div>
