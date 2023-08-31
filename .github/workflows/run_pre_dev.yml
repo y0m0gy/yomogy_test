@@ -19,13 +19,22 @@ jobs:
       - name: Check if JSON files are updated
         id: check
         run: |
-          JSON_FILES_CHANGED=$(git show --name-only --pretty="" $GITHUB_SHA | grep "\.json$")
+          LAST_PUSH_HASH=$(git reflog show --no-abbrev-ref --pretty=format:'%h' refs/heads/${{ github.ref }} | sed -n '2p')
+          JSON_FILES_CHANGED=$(git diff --name-only $LAST_PUSH_HASH HEAD | grep "\.json$")
           if [[ -z "$JSON_FILES_CHANGED" ]]; then
             echo "No JSON files were updated."
             echo "::set-output name=updated::false"
           else
             echo "::set-output name=updated::true"
           fi
+          
+          # JSON_FILES_CHANGED=$(git show --name-only --pretty="" $GITHUB_SHA | grep "\.json$")
+          # if [[ -z "$JSON_FILES_CHANGED" ]]; then
+          #   echo "No JSON files were updated."
+          #   echo "::set-output name=updated::false"
+          # else
+          #   echo "::set-output name=updated::true"
+          # fi
 
   validate:
     needs: check-json-updated
