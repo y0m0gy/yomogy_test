@@ -1,43 +1,81 @@
-name: Run NPX
+name: For dev Json Validation and RUN NPX
 
 on:
-  workflow_run:
-    workflows: ["JSON Validation"]
-    types:
-      - completed
-  # andにしたいけどできないからパス
-  # push:
-  #   branches:
-  #     - dev
-  #   paths:
-  #     - 'posts/**.json'
-  #     - 'posts/blog/**'
-  #     - 'public/images/blog/**'
-  #     - 'public/basic.png'
+  push:
+    branches:
+      - dev
+    paths:
+      - 'posts/**.json'
+      - 'posts/blog/**'
+      - 'public/images/blog/**'
+      - 'public/basic.png'
 
-  
+
 permissions:
   contents: write
 
+
 jobs:
-  check-previous-workflow:
+  check-json-updated:
     runs-on: ubuntu-latest
-    outputs:
-      status: ${{ steps.check.outputs.status }}
+
     steps:
-      - name: Check if JSON Validation was successful
-        id: check
+      - name: Get list of commits since last push
+        id: get_commits
         run: |
-          if [[ "${{ github.event.workflow_run.conclusion }}" != "success" ]]; then
-            echo "::set-output name=status::failure"
+          git fetch
+          COMMITS=$(git rev-list ${{ github.event.before }}..${{ github.sha }})
+          echo "::set-output name=commits::$COMMITS"
+      
+      - name: Check if specified paths are updated
+        id: check_paths
+        run: |
+          for COMMIT in ${{ steps.get_commits.outputs.commits }}
+          do
+            FILES_CHANGED=$(git diff-tree --no-commit-id --name-only -r $COMMIT)
+            for FILE in $FILES_CHANGED
+            do
+              # ここで指定したパスとマッチするか確認します
+              if [[ "$FILE" =~ ^posts/.*\.json$ || "$FILE" =~ ^posts/blog/.* || "$FILE" =~ ^public/images/blog/.* || "$FILE" == 'public/basic.png' ]]; then
+                echo "::set-output name=update_required::true"
+                break 2
+              fi
+            done
+          done
+
+      - name: Validate and rollback if necessary
+        if: steps.check_paths.outputs.update_required == 'true'
+        run: |
+          VALIDATION_FAILED=false
+          for COMMIT in ${{ steps.get_commits.outputs.commits }}
+          do
+            FILES_CHANGED=$(git diff-tree --no-commit-id --name-only -r $COMMIT)
+            for FILE in $FILES_CHANGED
+            do
+              if [[ "$FILE" =~ ^posts/.*\.json$ ]]; then
+                # ここでJSONの検証を行います
+                if ! cat $FILE | jq empty; then
+                  echo "Error: Invalid JSON in $FILE at commit $COMMIT"
+                  VALIDATION_FAILED=true
+                  break 2
+                fi
+              fi
+            done
+          done
+      
+          if [ "$VALIDATION_FAILED" = true ]; then
+            git reset --hard ${{ github.event.before }}
+            git push origin HEAD:${{ github.ref }} --force
             exit 1
-          else
-            echo "::set-output name=status::success"
           fi
+      
+        
+        
+        
 
   run-npx-and-push:
-    needs: check-previous-workflow
-    if: needs.check-previous-workflow.outputs.status == 'success'
+    needs: check-json-updated
+    if: success()
     runs-on: ubuntu-latest
 
     steps:
