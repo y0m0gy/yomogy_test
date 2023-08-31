@@ -72,23 +72,34 @@ body {
 }
 
 .blog_main h2 {
+  border-left: 2px solid #384359;
   font-size: 2rem;
   line-height: 2.8rem;
   font-weight: 600;
+  padding: 0 12px;
   margin-top: 1.6rem;
   margin-bottom: 0.8rem;
-  border-bottom: 2px solid #666;
 }
 
 /* 通常モードの h3 スタイル */
 .blog_main h3 {
-  border-left: 2px solid #384359;
   font-size: 1.5rem;
   font-weight: 600;
   line-height: 2.5rem;
   margin-top: 20px;
   margin-bottom: 10px;
   padding: 0 12px;
+  border-bottom: 2px solid #666;
+}
+.blog_main p {
+  padding: 0 12px;
+}
+
+/* footerのスタイル */
+.footer h2 {
+  font-size: 1.4rem; /* text-2xl */
+  font-weight: 600; /* font-semibold */
+  margin-bottom: 0.5rem;
 }
 
 /* dark モードのスタイル */
