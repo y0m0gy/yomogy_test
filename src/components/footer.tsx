@@ -1,19 +1,43 @@
-// footer.tsx
+import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="flex justify-between  bg-[#5EAD43]  p-4">
+    <footer className="footer flex justify-between  bg-[#5EAD43]  p-4 text-white">
       <div className="flex-1">
-        <h2>About Us</h2>
-        <p>Some information about us.</p>
+        <h2>About</h2>
+        <Link href="/administrator">
+          <p>運営者</p>
+        </Link>
+        <Link href="/contact">
+          <p>Contact</p>
+        </Link>
       </div>
       <div className="flex-1">
-        <h2>Contact Us</h2>
-        <p>How to reach us.</p>
+        <h2>Links</h2>
+        <div>
+          <a
+            href="https://github.com/yomogyhub"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub
+          </a>
+        </div>
+        <div>
+          <a
+            href="https://x.com/y0m0gy"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            X (Twitter)
+          </a>
+        </div>
       </div>
       <div className="flex-1">
         <h2>Legal</h2>
-        <p>Legal information.</p>
+        <Link href="/">
+          <p>Privacy</p>
+        </Link>
       </div>
     </footer>
   );
