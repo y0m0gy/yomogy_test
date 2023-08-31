@@ -5,7 +5,6 @@ on:
     workflows: ["JSON Validation"]
     types:
       - completed
-  
   # andにしたいけどできないからパス
   # push:
   #   branches:
@@ -16,44 +15,29 @@ on:
   #     - 'public/images/blog/**'
   #     - 'public/basic.png'
 
+  
+permissions:
+  contents: write
+
 jobs:
-  check-json-updated:
+  check-previous-workflow:
     runs-on: ubuntu-latest
-
     outputs:
-      updated: ${{ steps.check.outputs.updated }}
-
+      status: ${{ steps.check.outputs.status }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Check if specified files are updated
+      - name: Check if JSON Validation was successful
         id: check
         run: |
-          SPECIFIED_FILES_CHANGED=$(git show --name-only --pretty="" $GITHUB_SHA | grep -E "\.json$|public/basic\.png$")
-          if [[ -z "$SPECIFIED_FILES_CHANGED" ]]; then
-            echo "No specified files were updated."
-            echo "::set-output name=updated::false"
+          if [[ "${{ github.event.workflow_run.conclusion }}" != "success" ]]; then
+            echo "::set-output name=status::failure"
+            exit 1
           else
-            echo "::set-output name=updated::true"
+            echo "::set-output name=status::success"
           fi
 
-  validate:
-    needs: check-json-updated
-    if: needs.check-json-updated.outputs.updated == 'true'
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Validate updated JSON files
-        run: |
-          # Your validation code remains unchanged
-
   run-npx-and-push:
-    needs: validate
-    if: needs.validate.outputs.status == 'success'
+    needs: check-previous-workflow
+    if: needs.check-previous-workflow.outputs.status == 'success'
     runs-on: ubuntu-latest
 
     steps:
