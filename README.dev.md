@@ -1,6 +1,7 @@
 # Yomogy blog 実行手順
 
 このブログは、Next.js、TypeScript、Tailwind CSS および MDX を使用した SSG のブログサイトです。
+(コードを改修しやすくするために、記事は参考記事を使用しています。)
 
 ## 1. プロジェクトの初期設定
 
