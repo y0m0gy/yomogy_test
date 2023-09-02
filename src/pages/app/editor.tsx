@@ -11,7 +11,7 @@ import { AuthorData, BlogPostProps } from "../../utils/posts-type";
 
 const dummyAuthor: AuthorData = {
   name: "Yomogy (Demo)",
-  description: "This is a sample author for the MDX Demo editor.",
+  description: "これはDemoです。ここに著者の情報が入ります。",
   twitter: "@y0m0gy",
   image: `${process.env.BASE_URL}/images/authors/y0m0gy.png`,
 };
@@ -185,7 +185,7 @@ rePost: false # 記事の転載の場合は"url"を記入。例 : "https//yomogy
   );
 
   return (
-    <div className="flex flex-col h-screen p-4 md:flex-row">
+    <div className="flex w-full flex-col h-screen p-4 md:flex-row">
       <div className="flex-1 flex md:pr-2 flex-col">
         <div className="flex justify-between h-4 md:h-8 items-center mb-4">
           <h1 className="text-xl font-bold">MDX Editor</h1>
@@ -221,6 +221,18 @@ rePost: false # 記事の転載の場合は"url"を記入。例 : "https//yomogy
               data={data}
               author={dummyAuthor}
               id={data.id}
+              adjacentPosts={{
+                beforeAdjacentPost: {
+                  id: "/",
+                  title: "前の記事名が入ります",
+                  category: "igem",
+                },
+                afterAdjacentPost: {
+                  id: "/",
+                  title: "次の記事名が入ります",
+                  category: "igem",
+                },
+              }}
             />
           )}
         </div>
