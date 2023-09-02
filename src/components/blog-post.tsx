@@ -9,13 +9,14 @@ import SNSCard from "../components/sns-card";
 import AdComponent from "../components/ad";
 import tocbot from "tocbot";
 import React, { useEffect } from "react";
-import Router from "next/router"; // これを追加
+import Router from "next/router";
 
 const BlogPost: React.FC<BlogPostOnlyProps> = ({
   content,
   data,
   author,
   id,
+  adjacentPosts,
 }) => {
   useEffect(() => {
     const initTocbot = () => {
@@ -152,6 +153,95 @@ const BlogPost: React.FC<BlogPostOnlyProps> = ({
         </a>
       </div>
 
+      {/* 前後の記事 */}
+      <div className="w-full flex justify-between mt-8 mb-8 my-4 p-4 border-t border-b border-gray-400 dark:border-gray-200">
+        <div className="w-full flex flex-col items-start pr-4">
+          {adjacentPosts.afterAdjacentPost ? (
+            <>
+              <Link
+                className="w-full flex"
+                href={`/${adjacentPosts.afterAdjacentPost.category}/${adjacentPosts.afterAdjacentPost.id}`}
+              >
+                <div className="w-full flex items-center justify-start">
+                  <div>
+                    <svg
+                      width="24"
+                      height="24"
+                      className="text-gray-400 dark:text-gray-300"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M15 18L9 12L15 6"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      ></path>
+                    </svg>
+                  </div>
+
+                  <div>
+                    <p className="font-medium text-sm text-gray-400 dark:text-gray-300">
+                      次の記事
+                    </p>
+                    <p className="dark:text-gray-300 text-right">
+                      {adjacentPosts.afterAdjacentPost.title}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            </>
+          ) : (
+            <></>
+          )}
+        </div>
+
+        <div className="w-2% border-r"></div>
+
+        <div className="w-full flex flex-col items-end pl-4">
+          {adjacentPosts.beforeAdjacentPost ? (
+            <>
+              <Link
+                className="w-full flex"
+                href={`/${adjacentPosts.beforeAdjacentPost.category}/${adjacentPosts.beforeAdjacentPost.id}`}
+              >
+                <div className="w-full flex items-center justify-end">
+                  <div>
+                    <p className="font-medium text-sm text-gray-400 dark:text-gray-300">
+                      前の記事
+                    </p>
+                    <p className="dark:text-gray-300 text-right">
+                      {adjacentPosts.beforeAdjacentPost.title}
+                    </p>
+                  </div>
+                  <div>
+                    <svg
+                      width="24"
+                      height="24"
+                      className="text-gray-400 dark:text-gray-300"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M9 18L15 12L9 6"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      ></path>
+                    </svg>
+                  </div>
+                </div>
+              </Link>
+            </>
+          ) : (
+            <></>
+          )}
+        </div>
+      </div>
       <AuthorDetails author={author} />
     </div>
   );
