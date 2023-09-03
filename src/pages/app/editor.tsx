@@ -126,6 +126,7 @@ rePost: false # 記事の転載の場合は"url"を記入。例 : "https//yomogy
 
     const extractedData = {
       id: "sample-id",
+      path: "sample-path",
       coverImage: "public/basic.png",
       title: frontMatterObj.title,
       category: frontMatterObj.category,
