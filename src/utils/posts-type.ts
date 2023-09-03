@@ -29,6 +29,7 @@ export interface Post {
   tag: [];
   coverImage: string;
   rePost: string;
+  status: string;
 }
 
 export interface PostLists {

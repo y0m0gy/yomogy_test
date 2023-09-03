@@ -7,7 +7,7 @@ import "ace-builds/src-noconflict/mode-markdown";
 import "ace-builds/src-noconflict/theme-monokai";
 
 import BlogPost from "../../components/blog-post";
-import { AuthorData, BlogPostProps } from "../../utils/posts-type";
+import { AuthorData, Post, BlogPostProps } from "../../utils/posts-type";
 
 const dummyAuthor: AuthorData = {
   name: "Yomogy (Demo)",
@@ -52,18 +52,7 @@ rePost: false # 記事の転載の場合は"url"を記入。例 : "https//yomogy
   const [mdxCode, setMdxCode] = useState<string>(dummyMdxContent);
   const [content, setContent] = useState<MDXRemoteSerializeResult | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [data, setData] = useState<{
-    id: string;
-    coverImage: string;
-    title: string;
-    category: string;
-    publishedAt: string;
-    updatedAt: string;
-    author: string;
-    description: string;
-    tag: [];
-    rePost: string;
-  } | null>(null);
+  const [data, setData] = useState<Post | null>(null);
 
   async function convertMDXtoJSX(mdxContent: string): Promise<any> {
     const response = await fetch(`${process.env.API_BASE_URL}/convert-mdx`, {
@@ -118,6 +107,7 @@ rePost: false # 記事の転載の場合は"url"を記入。例 : "https//yomogy
       "description",
       "tag",
       "rePost",
+      "status",
     ];
 
     const missingKeys = requiredKeys.filter(
@@ -145,6 +135,7 @@ rePost: false # 記事の転載の場合は"url"を記入。例 : "https//yomogy
       description: frontMatterObj.description,
       tag: frontMatterObj.tag,
       rePost: frontMatterObj.rePost,
+      status: frontMatterObj.status,
     };
 
     setData(extractedData); // ここで data を設定
@@ -179,6 +170,7 @@ author: "Yomogy" # 投稿者
 description: "This is my first post." # 記事の説明
 tag: ["java", "react", "information"] # タグ任意 1つ以上 3つ程度まで
 rePost: false # 記事の転載の場合は"url"を記入。例 : "https//yomogy"
+status: "published" # "published" or "draft"
 ---`}
       </pre>
     </div>

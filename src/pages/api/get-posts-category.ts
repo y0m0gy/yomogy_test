@@ -56,6 +56,7 @@ export async function createJsonForAuthorsAndPosts() {
         tag: tags,
         coverImage: `/images/blog/${category}/${id}_cover.png`,
         rePost: matterResult.data.rePost,
+        status: matterResult.data.status,
       };
 
       if (allAuthorsCount[author]) {
@@ -320,18 +321,35 @@ export async function getListData(
     tag: post.tag,
     coverImage: post.coverImage,
     rePost: post.rePost,
+    status: post.status,
   }));
   return { title: category, posts: formattedPosts.sort(sortByPublishedDate) };
 }
 
 // authorごとの記事リストを取得する。この関数は、all-blog.jsonファイルを読み込み、その内容をJavaScriptオブジェクトに変換します。その後、このオブジェクトの値を取得して配列に変換し、指定された著者の投稿だけをフィルタリングします。最後に、投稿を日付順にソートして返します。
-export async function getPostsByAuthor(author: string): Promise<PostData[]> {
+export async function getPostsByAuthor(
+  author: string
+): Promise<PostLists | { notFound: boolean }> {
   const allPostsArray: PostData[] = await getAllPosts();
 
   // Filter the posts by author
-  return allPostsArray
-    .filter((post) => post.author === author)
-    .sort(sortByPublishedDate);
+  const filteredPosts = allPostsArray.filter((post) => post.author === author);
+
+  const formattedPosts = filteredPosts.map((post) => ({
+    id: post.id,
+    title: post.title,
+    publishedAt: post.publishedAt,
+    updatedAt: post.updatedAt,
+    category: post.category,
+    author: post.author,
+    description: post.description,
+    tag: post.tag,
+    coverImage: post.coverImage,
+    rePost: post.rePost,
+    status: post.status,
+  }));
+
+  return { title: author, posts: formattedPosts.sort(sortByPublishedDate) };
 }
 
 // 新着記事を取得する
@@ -408,6 +426,7 @@ export async function getData(params: Category & PostID) {
       tag: data.tag,
       coverImage: `/images/blog/${data.category}/${data.id}_cover.png`,
       rePost: data.rePost,
+      status: data.status,
     },
   };
 }

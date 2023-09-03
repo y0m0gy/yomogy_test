@@ -13,7 +13,8 @@
       "information"
     ],
     "coverImage": "/images/blog/igem/add-post1_cover.png",
-    "rePost": "https:yomogy.com"
+    "rePost": "https:yomogy.com",
+    "status": "published"
   },
   "post1": {
     "id": "post1",
@@ -29,71 +30,8 @@
       "information"
     ],
     "coverImage": "/images/blog/igem/post1_cover.png",
-    "rePost": false
-  },
-  "post10": {
-    "id": "post10",
-    "title": "My 10",
-    "publishedAt": "2023-06-10",
-    "updatedAt": "2023-06-21",
-    "category": "igem",
-    "author": "Yomogy",
-    "description": "This is my first post.",
-    "tag": [
-      "java",
-      "react",
-      "information"
-    ],
-    "coverImage": "/images/blog/igem/post10_cover.png",
-    "rePost": false
-  },
-  "post11": {
-    "id": "post11",
-    "title": "My 11",
-    "publishedAt": "2023-06-15",
-    "updatedAt": "2023-06-17",
-    "category": "igem",
-    "author": "Yomogy",
-    "description": "This is my first post.",
-    "tag": [
-      "java",
-      "react",
-      "information"
-    ],
-    "coverImage": "/images/blog/igem/post11_cover.png",
-    "rePost": false
-  },
-  "post12": {
-    "id": "post12",
-    "title": "My 12",
-    "publishedAt": "2023-06-18",
-    "updatedAt": "2023-06-20",
-    "category": "igem",
-    "author": "Yomogy",
-    "description": "This is my first post.",
-    "tag": [
-      "java",
-      "react",
-      "information"
-    ],
-    "coverImage": "/images/blog/igem/post12_cover.png",
-    "rePost": false
-  },
-  "post13": {
-    "id": "post13",
-    "title": "My 13",
-    "publishedAt": "2023-06-27",
-    "updatedAt": "2023-06-28",
-    "category": "igem",
-    "author": "Yomogy",
-    "description": "This is my first post.",
-    "tag": [
-      "java",
-      "react",
-      "information"
-    ],
-    "coverImage": "/images/blog/igem/post13_cover.png",
-    "rePost": false
+    "rePost": false,
+    "status": "published"
   },
   "post3": {
     "id": "post3",
@@ -109,7 +47,8 @@
       "information"
     ],
     "coverImage": "/images/blog/igem/post3_cover.png",
-    "rePost": false
+    "rePost": false,
+    "status": "published"
   },
   "post4": {
     "id": "post4",
@@ -125,87 +64,8 @@
       "information"
     ],
     "coverImage": "/images/blog/igem/post4_cover.png",
-    "rePost": false
-  },
-  "post5": {
-    "id": "post5",
-    "title": "My 5",
-    "publishedAt": "2023-06-2",
-    "updatedAt": "2023-06-2",
-    "category": "igem",
-    "author": "Yomogy",
-    "description": "This is my first post.",
-    "tag": [
-      "java",
-      "react",
-      "information"
-    ],
-    "coverImage": "/images/blog/igem/post5_cover.png",
-    "rePost": false
-  },
-  "post6": {
-    "id": "post6",
-    "title": "My 6",
-    "publishedAt": "2023-06-3",
-    "updatedAt": "2023-06-4",
-    "category": "igem",
-    "author": "Yomogy",
-    "description": "This is my first post.",
-    "tag": [
-      "java",
-      "react",
-      "information"
-    ],
-    "coverImage": "/images/blog/igem/post6_cover.png",
-    "rePost": false
-  },
-  "post7": {
-    "id": "post7",
-    "title": "My 7",
-    "publishedAt": "2023-06-5",
-    "updatedAt": "2023-06-10",
-    "category": "igem",
-    "author": "Yomogy",
-    "description": "This is my first post.",
-    "tag": [
-      "java",
-      "react",
-      "information"
-    ],
-    "coverImage": "/images/blog/igem/post7_cover.png",
-    "rePost": false
-  },
-  "post8": {
-    "id": "post8",
-    "title": "My 8",
-    "publishedAt": "2023-06-6",
-    "updatedAt": "2023-06-7",
-    "category": "igem",
-    "author": "Yomogy",
-    "description": "This is my first post.",
-    "tag": [
-      "java",
-      "react",
-      "information"
-    ],
-    "coverImage": "/images/blog/igem/post8_cover.png",
-    "rePost": false
-  },
-  "post9": {
-    "id": "post9",
-    "title": "My 9",
-    "publishedAt": "2023-06-8",
-    "updatedAt": "2023-06-9",
-    "category": "igem",
-    "author": "Yomogy",
-    "description": "This is my first post.",
-    "tag": [
-      "java",
-      "react",
-      "information"
-    ],
-    "coverImage": "/images/blog/igem/post9_cover.png",
-    "rePost": false
+    "rePost": false,
+    "status": "published"
   },
   "post2": {
     "id": "post2",
@@ -221,6 +81,7 @@
       "information"
     ],
     "coverImage": "/images/blog/synbio/post2_cover.png",
-    "rePost": false
+    "rePost": false,
+    "status": "published"
   }
 }

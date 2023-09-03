@@ -13,8 +13,7 @@ import Pagination from "../../../components/pagination"; // 実際のパスは�
 // Fetch data and generate static paths with getStaticPaths
 export async function getStaticPaths() {
   const paths = await getAllAuthorPath();
-
-  return { paths, fallback: false };
+  return { paths: paths, fallback: false };
 }
 
 // Fetch data and generate static pages with getStaticProps
@@ -26,31 +25,20 @@ export async function getStaticProps(context: {
 
   if (!name || !page) return { notFound: true };
 
-  const posts = await getPostsByAuthor(name);
+  const allPosts: PostLists = (await getPostsByAuthor(name)) as PostLists;
   const itemsPerPage = 10;
   const start = (page - 1) * itemsPerPage;
   const end = start + itemsPerPage;
 
-  const formattedPosts = posts.slice(start, end).map((post) => ({
-    id: post.id,
-    title: post.title,
-    publishedAt: post.publishedAt,
-    updatedAt: post.updatedAt,
-    category: post.category,
-    author: post.author,
-    description: post.description,
-    tag: post.tag,
-    coverImage: post.coverImage,
-    rePost: post.rePost,
-  }));
+  const posts = allPosts.posts.slice(start, end);
 
   const basicContent = await getBasicContent();
   const { newPosts, recommendPosts } = basicContent.props;
 
   return {
     props: {
-      posts: formattedPosts,
-      title: name, // Pass the name as a prop
+      title: name,
+      posts: posts,
       page: page,
       totalPages: Math.ceil(posts.length / itemsPerPage),
       newPosts,
