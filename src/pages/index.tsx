@@ -22,7 +22,6 @@ export async function getStaticProps() {
     const basicContent = await getBasicContent();
     const { newPosts, recommendPosts } = basicContent.props;
 
-    console.log("post.image", posts[0].coverImage);
     return {
       props: {
         posts: posts,

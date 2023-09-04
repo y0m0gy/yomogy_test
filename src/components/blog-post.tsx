@@ -132,7 +132,7 @@ const BlogPost: React.FC<BlogPostOnlyProps> = ({
           className="flex items-center px-4 py-2 bg-transparent border border-gray-300 shadow-md rounded-lg hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-800"
           rel="noopener noreferrer"
           target="_blank"
-          href={`${process.env.GITHUB_POST_BASE_URL}/${data.category}/${id}.mdx`}
+          href={`${process.env.GITHUB_POST_BASE_URL}/${data.path}/${id}.mdx`}
         >
           <span className="mr-2">
             <svg
