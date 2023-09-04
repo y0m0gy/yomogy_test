@@ -1,11 +1,6 @@
 import { ParsedUrlQuery } from "querystring";
 import { MDXRemoteSerializeResult } from "next-mdx-remote";
 
-export interface PostData {
-  id: string;
-  [key: string]: any;
-}
-
 export interface Category extends ParsedUrlQuery {
   category: string;
 }
@@ -20,15 +15,17 @@ export interface Tag extends ParsedUrlQuery {
 
 export interface Post {
   id: string;
+  path: string;
   title: string;
   publishedAt: string;
   updatedAt: string;
   category: string;
   author: string;
   description: string;
-  tag: [];
+  tag: string[];
   coverImage: string;
   rePost: string;
+  status: string;
 }
 
 export interface PostLists {

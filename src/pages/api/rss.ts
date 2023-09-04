@@ -3,7 +3,7 @@ import path from "path";
 import { NextApiRequest, NextApiResponse } from "next";
 import RSS from "rss";
 import { getAllPosts } from "../api/get-posts-category"; // ここで関数をインポート
-import { PostData } from "../../utils/posts-type";
+import { Post } from "../../utils/posts-type";
 
 async function generateRssFeed() {
   const feed = new RSS({
@@ -22,7 +22,7 @@ async function generateRssFeed() {
 
   const posts = await getAllPosts();
 
-  posts.forEach((post: PostData) => {
+  posts.forEach((post: Post) => {
     feed.item({
       title: post.title,
       description: post.title, // ここで全文としてタイトルを使用します（デモのため）

@@ -4,7 +4,6 @@ import matter from "gray-matter";
 import {
   Post,
   ListCount,
-  PostData,
   Category,
   PostID,
   PostLists,
@@ -12,12 +11,13 @@ import {
   AdjacentPosts,
 } from "../../utils/posts-type";
 
-import { createImage } from "./make-fig";
+import { createImage } from "../../utils/make-fig";
+import { copyImagesToPublic } from "../../utils/copy-image-to-public";
 
 // 全記事を探索して、post/all-blog.json (全部生成) と、post/all-author.json (一部更新) を更新します。最初に実行
 export async function createJsonForAuthorsAndPosts() {
   const postsDirectory = path.join(process.cwd(), "posts", "blog");
-  const categories = fs.readdirSync(postsDirectory);
+  const allAuthorsDir = fs.readdirSync(postsDirectory);
 
   let allPostsData: Record<string, Post> = {};
   let allAuthors = [];
@@ -25,11 +25,11 @@ export async function createJsonForAuthorsAndPosts() {
   let allAuthorsCount: Record<string, number> = {};
   let categoryTagCount: Record<string, Record<string, number>> = {};
 
-  for (const category of categories) {
-    const categoryDirectory = path.join(postsDirectory, category);
-    const filenames = fs.readdirSync(categoryDirectory);
-
-    allCategories[category] = filenames.length;
+  for (const authorDir of allAuthorsDir) {
+    const categoryDirectory = path.join(postsDirectory, authorDir);
+    const filenames = fs
+      .readdirSync(categoryDirectory)
+      .filter((filename) => filename.endsWith(".mdx"));
 
     for (const filename of filenames) {
       const id = filename.replace(/\.mdx$/, "");
@@ -43,19 +43,19 @@ export async function createJsonForAuthorsAndPosts() {
 
       allAuthors.push(author);
 
-      // もし記事の画像がなければ、画像を生成する
-
       allPostsData[id] = {
         id: id,
+        path: `/posts/blog/${authorDir}/${id}`,
         title: matterResult.data.title,
         publishedAt: matterResult.data.publishedAt,
         updatedAt: matterResult.data.updatedAt,
-        category: category,
+        category: matterResult.data.category,
         author: author,
         description: matterResult.data.description,
         tag: tags,
-        coverImage: `/images/blog/${category}/${id}_cover.png`,
+        coverImage: `/blog/${authorDir}/images/${id}_cover.png`,
         rePost: matterResult.data.rePost,
+        status: matterResult.data.status,
       };
 
       if (allAuthorsCount[author]) {
@@ -64,15 +64,21 @@ export async function createJsonForAuthorsAndPosts() {
         allAuthorsCount[author] = 1;
       }
 
-      if (!categoryTagCount[category]) {
-        categoryTagCount[category] = {};
+      if (allCategories[matterResult.data.category]) {
+        allCategories[matterResult.data.category]++;
+      } else {
+        allCategories[matterResult.data.category] = 1;
+      }
+
+      if (!categoryTagCount[matterResult.data.category]) {
+        categoryTagCount[matterResult.data.category] = {};
       }
 
       for (const tag of tags) {
-        if (categoryTagCount[category][tag]) {
-          categoryTagCount[category][tag]++;
+        if (categoryTagCount[matterResult.data.category][tag]) {
+          categoryTagCount[matterResult.data.category][tag]++;
         } else {
-          categoryTagCount[category][tag] = 1;
+          categoryTagCount[matterResult.data.category][tag] = 1;
         }
       }
     }
@@ -110,55 +116,110 @@ export async function createJsonForAuthorsAndPosts() {
       authorsJson[author] = {
         name: author,
         description: "新規ユーザーです。プロフィールを更新してください。",
-        twitter: "https://twitter.com/y0m0gy",
-        image: "/images/authors/y0m0gy.png",
+        twitter: "https://x.com/y0m0gy",
+        image: "/authors/y0m0gy.png",
       };
     }
   }
 
   fs.writeFileSync(authorsJsonPath, JSON.stringify(authorsJson, null, 2));
 
+  // もし記事の画像がなければ、画像を生成する
   for (const [id, postData] of Object.entries(allPostsData)) {
-    const { coverImage, title, category, author } = postData;
+    const { coverImage, title, author } = postData;
+    const coverImagePath = path.join(process.cwd(), "posts", coverImage);
 
-    if (!fs.existsSync("public" + coverImage)) {
+    if (!fs.existsSync(coverImagePath)) {
       console.log("Creating image for", id);
       // If path is undefined, null, empty string, or any other falsy value
-      await createImage(coverImage, title, author, authorsJson[author].image);
+      await createImage(
+        path.join(coverImagePath),
+        title,
+        author,
+        authorsJson[author].image
+      );
     }
   }
 
   // Create or update posts JSON
   const postsJsonPath = path.join(process.cwd(), "posts", "all-blog.json");
   fs.writeFileSync(postsJsonPath, JSON.stringify(allPostsData, null, 2));
+
+  // 記事の画像をコピーする
+  // posts/blog/下のサブディレクトリを取得
+  const blogDirectory = path.join(process.cwd(), "posts", "blog");
+  const categories = fs.readdirSync(blogDirectory).filter((subdir) => {
+    const fullSubdirPath = path.join(blogDirectory, subdir);
+    return fs.statSync(fullSubdirPath).isDirectory();
+  });
+
+  // 各カテゴリの画像を対応するpublic/images/blog/下のディレクトリにコピー
+  categories.forEach((category) => {
+    const source = path.join(blogDirectory, category);
+    const destination = path.join(
+      process.cwd(),
+      "public",
+      "images",
+      "blog",
+      category
+    );
+
+    // 画像をコピーする前に、宛先のディレクトリが存在しない場合は作成
+    if (!fs.existsSync(destination)) {
+      fs.mkdirSync(destination, { recursive: true });
+    }
+
+    copyImagesToPublic(source, destination);
+  });
 }
 
 // all-blog.jsonの情報を配列化して返す
-export async function getAllPosts(): Promise<PostData[]> {
+export async function getAllPosts(): Promise<Post[]> {
   const jsonPath = path.join(process.cwd(), "posts", "all-blog.json");
   const jsonString = fs.readFileSync(jsonPath, "utf8");
-  const allPostsData: Record<string, PostData> = JSON.parse(jsonString);
-  const allPostsArray: PostData[] = Object.values(allPostsData);
+  const allPostsData: Record<string, Post> = JSON.parse(jsonString);
+  const allPostsArray: Post[] = Object.values(allPostsData);
 
   return allPostsArray;
 }
 
+// all-blog.jsonの情報をIDに基づいて該当するデータを返す
+export async function getJsonPost(id: string): Promise<Post> {
+  const jsonPath = path.join(process.cwd(), "posts", "all-blog.json");
+  const jsonString = fs.readFileSync(jsonPath, "utf8");
+  const allPostsData: Record<string, Post> = JSON.parse(jsonString);
+  const post: Post = allPostsData[id];
+
+  return post;
+}
+
+// all-blog.jsonの情報から記事のpathのデータを返す
+
+export async function getJsonAllList() {
+  const jsonPath = path.join(process.cwd(), "posts", "all-list-count.json");
+  const jsonString = fs.readFileSync(jsonPath, "utf8");
+  const allListCount: ListCount = JSON.parse(jsonString);
+  return allListCount;
+}
+
 // Path用
 // Category Path
+
 export async function getCategoriesPaths() {
-  const postsDirectory = path.join(process.cwd(), "posts", "blog");
-  const paths = await fs.promises.readdir(postsDirectory);
-  return { postsDirectory, paths };
+  const allListCount = await getJsonAllList();
+  const categories = Object.keys(allListCount.categories);
+
+  // Convert categories to the path format required by Next.js
+  const paths = categories.map((category) => ({
+    params: { category },
+  }));
+
+  return paths;
 }
 
 export async function getCategoriesPagePaths() {
-  const jsonPath = path.join(process.cwd(), "posts", "all-list-count.json");
-
-  // Read the JSON file
-  const jsonString = fs.readFileSync(jsonPath, "utf8");
-  const allListCount: ListCount = JSON.parse(jsonString);
-
   // Get all categories
+  const allListCount = await getJsonAllList();
   const allCategories = Object.keys(allListCount.categories);
 
   const paths = [];
@@ -182,7 +243,7 @@ export async function getCategoriesPagePaths() {
 
 // Tag Path。全Tagをカテゴリー別に取得し、Pathを生成するために使用する
 export async function getAllCategoryTagsPath() {
-  const allPostsArray: PostData[] = await getAllPosts();
+  const allPostsArray: Post[] = await getAllPosts();
 
   // Get all categories
   const categories = Array.from(
@@ -227,23 +288,13 @@ export async function getAllCategoryTagsPath() {
 
 // Post Path
 export async function getPostsPaths() {
-  const { postsDirectory, paths: categories } = await getCategoriesPaths();
-  const paths = [];
-
-  for (const category of categories) {
-    const categoryPath = path.join(postsDirectory, category);
-    const filenames = await fs.promises.readdir(categoryPath);
-
-    for (const filename of filenames) {
-      const categoryId = filename.replace(/\.mdx$/, "");
-      const params = {
-        category: category,
-        id: categoryId,
-      };
-
-      paths.push({ params: params });
-    }
-  }
+  const allPostsArray = await getAllPosts();
+  const paths = allPostsArray.map((post) => ({
+    params: {
+      category: post.category,
+      id: post.id,
+    },
+  }));
 
   return paths;
 }
@@ -282,7 +333,7 @@ export async function getAllAuthorPath() {
 export async function getPostsByCategory(
   category: string,
   tag?: string
-): Promise<PostData[]> {
+): Promise<Post[]> {
   // Get all posts
   const allPostsData = await getAllPosts();
 
@@ -309,39 +360,29 @@ export async function getListData(
 ): Promise<PostLists | { notFound: boolean }> {
   if (!category) return { notFound: true };
   const posts = await getPostsByCategory(category, tag);
-  const formattedPosts = posts.map((post) => ({
-    id: post.id,
-    title: post.title,
-    publishedAt: post.publishedAt,
-    updatedAt: post.updatedAt,
-    category: post.category,
-    author: post.author,
-    description: post.description,
-    tag: post.tag,
-    coverImage: post.coverImage,
-    rePost: post.rePost,
-  }));
-  return { title: category, posts: formattedPosts.sort(sortByPublishedDate) };
+  return { title: category, posts: posts.sort(sortByPublishedDate) };
 }
 
 // authorごとの記事リストを取得する。この関数は、all-blog.jsonファイルを読み込み、その内容をJavaScriptオブジェクトに変換します。その後、このオブジェクトの値を取得して配列に変換し、指定された著者の投稿だけをフィルタリングします。最後に、投稿を日付順にソートして返します。
-export async function getPostsByAuthor(author: string): Promise<PostData[]> {
-  const allPostsArray: PostData[] = await getAllPosts();
+export async function getPostsByAuthor(
+  author: string
+): Promise<PostLists | { notFound: boolean }> {
+  const allPostsArray: Post[] = await getAllPosts();
 
   // Filter the posts by author
-  return allPostsArray
-    .filter((post) => post.author === author)
-    .sort(sortByPublishedDate);
+  const filteredPosts = allPostsArray.filter((post) => post.author === author);
+
+  return { title: author, posts: filteredPosts.sort(sortByPublishedDate) };
 }
 
 // 新着記事を取得する
-export async function getLatestPosts(limit = 5): Promise<PostData[]> {
+export async function getLatestPosts(limit = 5): Promise<Post[]> {
   const allPosts = await getAllPosts();
   return allPosts.sort(sortByPublishedDate).slice(0, limit);
 }
 
 // おすすめ記事を取得する
-export async function getRecommendPosts(): Promise<PostData[]> {
+export async function getRecommendPosts(): Promise<Post[]> {
   const allPosts = await getAllPosts();
   const recommendId = ["post1", "post2", "post3", "post4", "post5"];
 
@@ -355,7 +396,6 @@ export async function getRecommendPosts(): Promise<PostData[]> {
 export async function getBasicContent() {
   const newPosts = await getLatestPosts();
   const recommendPosts = await getRecommendPosts();
-  // getData({ category: "igem", id: "post1" });
 
   return {
     props: {
@@ -374,18 +414,11 @@ export async function getBasicContent() {
 // ファイル名からデータを取得する
 export async function getData(params: Category & PostID) {
   if (!params.category || !params.id) return { notFound: true };
+  const postInfo = await getJsonPost(params.id);
 
-  const filePath = path.join(
-    process.cwd(),
-    "posts",
-    "blog",
-    params.category,
-    `${params.id}.mdx`
-  );
+  const filePath = path.join(process.cwd(), `${postInfo.path}.mdx`);
   const fileContents = await fs.promises.readFile(filePath, "utf8");
   const { data, content } = matter(fileContents);
-
-  // console.log("Data:", data); // データが正しく抽出されていることを確認
 
   if (!data || !data.title) {
     return {
@@ -394,21 +427,10 @@ export async function getData(params: Category & PostID) {
   }
 
   return {
-    category: params.category,
-    id: params.id,
+    category: data.category,
+    id: data.id,
     content: content,
-    data: {
-      id: data.id,
-      title: data.title,
-      publishedAt: data.publishedAt,
-      updatedAt: data.updatedAt,
-      category: data.category,
-      author: data.author,
-      description: data.description,
-      tag: data.tag,
-      coverImage: `/images/blog/${data.category}/${data.id}_cover.png`,
-      rePost: data.rePost,
-    },
+    data: data,
   };
 }
 
@@ -436,7 +458,7 @@ export async function getAdjacentPosts(
   currentId: string
 ): Promise<AdjacentPosts> {
   // JSONデータを配列に変換する
-  const postArray: PostData[] = await getAllPosts();
+  const postArray: Post[] = await getAllPosts();
   const sortedPosts = postArray.sort(sortByPublishedDate);
   const currentIndex = sortedPosts.findIndex((post) => post.id === currentId);
 

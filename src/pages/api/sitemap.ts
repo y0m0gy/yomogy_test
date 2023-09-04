@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { getAllPosts } from "../api/get-posts-category";
-import { PostData } from "../../utils/posts-type";
+import { Post } from "../../utils/posts-type";
 
 async function generateSitemap() {
   const baseUrl = `${process.env.BASE_URL}`;
@@ -17,7 +17,7 @@ async function generateSitemap() {
       </url>`;
 
   // 各投稿のURLをサイトマップに追加
-  posts.forEach((post: PostData) => {
+  posts.forEach((post: Post) => {
     sitemap += `
         <url>
             <loc>${baseUrl}/${post.category}/${post.id}</loc>

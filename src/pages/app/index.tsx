@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const MainPage: React.FC = () => {
   // 例としてのダミーデータ
-  const items = ["editor"];
+  const items = ["editor", "login"];
 
   return (
     <div className="min-h-screen p-4">

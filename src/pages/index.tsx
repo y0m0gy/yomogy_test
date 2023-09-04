@@ -4,6 +4,7 @@ import PageList from "../components/page-list";
 import { PostLists, PageNationProps } from "../utils/posts-type";
 import Pagination from "../components/pagination"; // 実際のパスはあなたのプロジェクト構成に基づいて調整してください
 import Sidebar from "../components/sidebar";
+import { withCoalescedInvoke } from "next/dist/lib/coalesced-function";
 
 // Fetch data and generate static pages with getStaticProps
 export async function getStaticProps() {

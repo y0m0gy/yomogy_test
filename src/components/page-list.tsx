@@ -17,7 +17,7 @@ const PageList: React.FC<PostLists> = ({ title, posts }) => (
           <Link href={`/${post.category}/${post.id}`} className="block h-full">
             <div className="relative w-full">
               <Image
-                src={post.coverImage.replace(/^public/, "")}
+                src={`/images${post.coverImage}`}
                 alt={post.title}
                 className="rounded-md object-cover h-full w-full"
                 width={1200}
