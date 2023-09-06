@@ -2,6 +2,7 @@ import { serialize } from "next-mdx-remote/serialize";
 import {
   getPostsPaths,
   getData,
+  getAdjacentPosts,
   getListData,
   getAuthorDetails,
 } from "../api/get-posts-category";
@@ -51,6 +52,9 @@ export async function getStaticProps({
     blogPostProps.data.id = null;
   }
 
+  // 前後の記事を取得
+  const adjacentPosts = await getAdjacentPosts(params.id);
+
   // mdx
   const processedContent1 = addUniqueIdsToHeadings(blogPostProps.content ?? ""); // "h1", "h2", "h3"を見つけたら、idを付与する。コードブロックの中も除外できないので注意
   const processedContent = await processMDXContent(processedContent1); // for link card. コードブロックの中も除外できないので注意
@@ -70,6 +74,7 @@ export async function getStaticProps({
       relatedPosts,
       author: authorDetails,
       id: params.id,
+      adjacentPosts: adjacentPosts,
     },
   };
 }
@@ -80,6 +85,7 @@ const BlogPostPage: React.FC<BlogPostProps> = ({
   relatedPosts,
   author,
   id,
+  adjacentPosts,
 }) => {
   return (
     <>
@@ -91,7 +97,13 @@ const BlogPostPage: React.FC<BlogPostProps> = ({
       />
       <FrameTemplate
         leftComponent={
-          <BlogPost content={content} data={data} author={author} id={id} />
+          <BlogPost
+            content={content}
+            data={data}
+            author={author}
+            id={id}
+            adjacentPosts={adjacentPosts}
+          />
         }
         rightComponent={
           <Sidebar title={"Related Posts"} relatedPosts={relatedPosts} />

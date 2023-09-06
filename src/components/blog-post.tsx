@@ -9,13 +9,14 @@ import SNSCard from "../components/sns-card";
 import AdComponent from "../components/ad";
 import tocbot from "tocbot";
 import React, { useEffect } from "react";
-import Router from "next/router"; // これを追加
+import Router from "next/router";
 
 const BlogPost: React.FC<BlogPostOnlyProps> = ({
   content,
   data,
   author,
   id,
+  adjacentPosts,
 }) => {
   useEffect(() => {
     const initTocbot = () => {
@@ -131,7 +132,7 @@ const BlogPost: React.FC<BlogPostOnlyProps> = ({
           className="flex items-center px-4 py-2 bg-transparent border border-gray-300 shadow-md rounded-lg hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-800"
           rel="noopener noreferrer"
           target="_blank"
-          href={`${process.env.GITHUB_POST_BASE_URL}/${data.category}/${id}.mdx`}
+          href={`${process.env.GITHUB_POST_BASE_URL}/${data.path}/${id}.mdx`}
         >
           <span className="mr-2">
             <svg
@@ -152,6 +153,95 @@ const BlogPost: React.FC<BlogPostOnlyProps> = ({
         </a>
       </div>
 
+      {/* 前後の記事 */}
+      <div className="w-full flex justify-between mt-8 mb-8 my-4 p-4 border-t border-b border-gray-400 dark:border-gray-200">
+        <div className="w-full flex flex-col items-start pr-4">
+          {adjacentPosts.afterAdjacentPost ? (
+            <>
+              <Link
+                className="w-full flex"
+                href={`/${adjacentPosts.afterAdjacentPost.category}/${adjacentPosts.afterAdjacentPost.id}`}
+              >
+                <div className="w-full flex items-center justify-start">
+                  <div>
+                    <svg
+                      width="24"
+                      height="24"
+                      className="text-gray-400 dark:text-gray-300"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M15 18L9 12L15 6"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      ></path>
+                    </svg>
+                  </div>
+
+                  <div>
+                    <p className="font-medium text-sm text-gray-400 dark:text-gray-300">
+                      次の記事
+                    </p>
+                    <p className="dark:text-gray-300 text-right">
+                      {adjacentPosts.afterAdjacentPost.title}
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            </>
+          ) : (
+            <></>
+          )}
+        </div>
+
+        <div className="w-2% border-r"></div>
+
+        <div className="w-full flex flex-col items-end pl-4">
+          {adjacentPosts.beforeAdjacentPost ? (
+            <>
+              <Link
+                className="w-full flex"
+                href={`/${adjacentPosts.beforeAdjacentPost.category}/${adjacentPosts.beforeAdjacentPost.id}`}
+              >
+                <div className="w-full flex items-center justify-end">
+                  <div>
+                    <p className="font-medium text-sm text-gray-400 dark:text-gray-300">
+                      前の記事
+                    </p>
+                    <p className="dark:text-gray-300 text-right">
+                      {adjacentPosts.beforeAdjacentPost.title}
+                    </p>
+                  </div>
+                  <div>
+                    <svg
+                      width="24"
+                      height="24"
+                      className="text-gray-400 dark:text-gray-300"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M9 18L15 12L9 6"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      ></path>
+                    </svg>
+                  </div>
+                </div>
+              </Link>
+            </>
+          ) : (
+            <></>
+          )}
+        </div>
+      </div>
       <AuthorDetails author={author} />
     </div>
   );

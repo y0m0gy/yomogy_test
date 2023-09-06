@@ -7,11 +7,11 @@ import "ace-builds/src-noconflict/mode-markdown";
 import "ace-builds/src-noconflict/theme-monokai";
 
 import BlogPost from "../../components/blog-post";
-import { AuthorData, BlogPostProps } from "../../utils/posts-type";
+import { AuthorData, Post, BlogPostProps } from "../../utils/posts-type";
 
 const dummyAuthor: AuthorData = {
   name: "Yomogy (Demo)",
-  description: "This is a sample author for the MDX Demo editor.",
+  description: "これはDemoです。ここに著者の情報が入ります。",
   twitter: "@y0m0gy",
   image: `${process.env.BASE_URL}/images/authors/y0m0gy.png`,
 };
@@ -52,27 +52,19 @@ rePost: false # 記事の転載の場合は"url"を記入。例 : "https//yomogy
   const [mdxCode, setMdxCode] = useState<string>(dummyMdxContent);
   const [content, setContent] = useState<MDXRemoteSerializeResult | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [data, setData] = useState<{
-    id: string;
-    coverImage: string;
-    title: string;
-    category: string;
-    publishedAt: string;
-    updatedAt: string;
-    author: string;
-    description: string;
-    tag: [];
-    rePost: string;
-  } | null>(null);
+  const [data, setData] = useState<Post | null>(null);
 
   async function convertMDXtoJSX(mdxContent: string): Promise<any> {
-    const response = await fetch(`${process.env.API_BASE_URL}/convert-mdx`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ mdx: mdxContent }),
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/convert-mdx`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ mdx: mdxContent }),
+      }
+    );
     if (!response.ok) {
       throw new Error("APIが停止しています。");
     }
@@ -118,6 +110,7 @@ rePost: false # 記事の転載の場合は"url"を記入。例 : "https//yomogy
       "description",
       "tag",
       "rePost",
+      "status",
     ];
 
     const missingKeys = requiredKeys.filter(
@@ -136,6 +129,7 @@ rePost: false # 記事の転載の場合は"url"を記入。例 : "https//yomogy
 
     const extractedData = {
       id: "sample-id",
+      path: "sample-path",
       coverImage: "public/basic.png",
       title: frontMatterObj.title,
       category: frontMatterObj.category,
@@ -145,6 +139,7 @@ rePost: false # 記事の転載の場合は"url"を記入。例 : "https//yomogy
       description: frontMatterObj.description,
       tag: frontMatterObj.tag,
       rePost: frontMatterObj.rePost,
+      status: frontMatterObj.status,
     };
 
     setData(extractedData); // ここで data を設定
@@ -179,13 +174,14 @@ author: "Yomogy" # 投稿者
 description: "This is my first post." # 記事の説明
 tag: ["java", "react", "information"] # タグ任意 1つ以上 3つ程度まで
 rePost: false # 記事の転載の場合は"url"を記入。例 : "https//yomogy"
+status: "published" # "published" or "draft"
 ---`}
       </pre>
     </div>
   );
 
   return (
-    <div className="flex flex-col h-screen p-4 md:flex-row">
+    <div className="flex w-full flex-col h-screen p-4 md:flex-row">
       <div className="flex-1 flex md:pr-2 flex-col">
         <div className="flex justify-between h-4 md:h-8 items-center mb-4">
           <h1 className="text-xl font-bold">MDX Editor</h1>
@@ -221,6 +217,18 @@ rePost: false # 記事の転載の場合は"url"を記入。例 : "https//yomogy
               data={data}
               author={dummyAuthor}
               id={data.id}
+              adjacentPosts={{
+                beforeAdjacentPost: {
+                  id: "/",
+                  title: "前の記事名が入ります",
+                  category: "igem",
+                },
+                afterAdjacentPost: {
+                  id: "/",
+                  title: "次の記事名が入ります",
+                  category: "igem",
+                },
+              }}
             />
           )}
         </div>
