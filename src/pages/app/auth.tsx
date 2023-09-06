@@ -66,13 +66,16 @@ export default function Auth() {
       if (!code) return;
 
       try {
-        const response = await fetch("/api/github-api", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ code }),
-        });
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/github-api`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ code }),
+          }
+        );
 
         const data = await response.json();
         const accessToken = data.access_token;

@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   env: {
     BASE_URL: process.env.BASE_URL,
-    API_BASE_URL: process.env.API_BASE_URL,
+    NEXT_PUBLIC_API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL,
     SEARCH_BASE_URL: process.env.SEARCH_BASE_URL,
     GA_ADSENSE_ID: process.env.GA_ADSENSE_ID,
     GA_MEASUREMENT_ID: process.env.GA_MEASUREMENT_ID,
