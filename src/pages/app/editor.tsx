@@ -55,13 +55,16 @@ rePost: false # 記事の転載の場合は"url"を記入。例 : "https//yomogy
   const [data, setData] = useState<Post | null>(null);
 
   async function convertMDXtoJSX(mdxContent: string): Promise<any> {
-    const response = await fetch(`${process.env.API_BASE_URL}/convert-mdx`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ mdx: mdxContent }),
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/convert-mdx`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ mdx: mdxContent }),
+      }
+    );
     if (!response.ok) {
       throw new Error("APIが停止しています。");
     }
