@@ -93,7 +93,7 @@ const BlogPostPage: React.FC<BlogPostProps> = ({
         pageTitle={data.title}
         pageDescription={data.description}
         pagePath={`${process.env.BASE_URL}/${data.category}/${id}`}
-        pageImg={`${process.env.BASE_URL}/images/blog/${data.category}/${id}_cover.png`}
+        pageImg={`${process.env.BASE_URL}${data.coverImage}`}
       />
       <FrameTemplate
         leftComponent={
