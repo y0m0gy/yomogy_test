@@ -135,26 +135,33 @@ jobs:
           done
 
           # Validate cover image files in specified directories
+          set -euxo pipefail
+          
           for FILE in public/blog/**/images/*_cover.png posts/blog/**/images/*_cover.png; do
-            echo "Checking file cover: $FILE"
+          echo "Checking file cover: $FILE"
 
-            if [ -f "$FILE" ]; then
-              FILE_SIZE=$(stat -c%s "$FILE")
-              echo "$FILE_SIZE"
-              IMAGE_DIMENSIONS=$(file $FILE | grep -o '[0-9]* x [0-9]*')
-
-              if [ "$IMAGE_DIMENSIONS" != "1200 x 630" ]; then
-                echo "File $FILE has invalid dimensions ($IMAGE_DIMENSIONS). Deleting..."
-                if git ls-files --error-unmatch "$FILE" > /dev/null 2>&1; then
-                  git rm "$FILE" || true
-                else
-                  echo "File $FILE is not tracked by git. Deleting..."
-                  rm "$FILE" || true
-                fi
-                INVALID_FILES_FOUND=true
+          if [ -f "$FILE" ]; then
+            FILE_SIZE=$(stat -c%s "$FILE")
+            echo "File size: $FILE_SIZE"
+            
+            IMAGE_DIMENSIONS=$(file $FILE | grep -o '[0-9]* x [0-9]*')
+            echo "Image dimensions: $IMAGE_DIMENSIONS"
+            
+            if [ "$IMAGE_DIMENSIONS" != "1200 x 630" ]; then
+              echo "File $FILE has invalid dimensions ($IMAGE_DIMENSIONS). Attempting to delete..."
+              
+              if git ls-files --error-unmatch "$FILE" > /dev/null 2>&1; then
+                echo "File is tracked by git. Using 'git rm' to delete..."
+                git rm "$FILE"
+              else
+                echo "File is not tracked by git. Using 'rm' to delete..."
+                rm "$FILE"
               fi
-
+              
+              echo "File $FILE deleted successfully."
+              INVALID_FILES_FOUND=true
             fi
+          fi
           done
 
           # Validate file size in specified directories
