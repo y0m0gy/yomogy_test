@@ -31,7 +31,10 @@ function validateMDX(filePath: string): void {
     ];
 
     for (const field of requiredFields) {
-      if (!frontMatter[field as keyof PrePost]) {
+      if (
+        frontMatter[field as keyof PrePost] === undefined ||
+        frontMatter[field as keyof PrePost] === null
+      ) {
         throw new Error(`Missing required field: ${field}`);
       }
     }
