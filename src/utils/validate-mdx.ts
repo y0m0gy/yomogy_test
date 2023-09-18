@@ -1,14 +1,13 @@
 import fs from "fs";
 import matter from "gray-matter";
-import { PrePost, Post } from "./posts-type";
+import { PrePost } from "./posts-type"; // 適切なパスを指定してください
 
 function validateMDX(filePath: string): void {
   try {
     const fileContent = fs.readFileSync(filePath, "utf-8");
 
     // Using gray-matter to parse front matter
-
-    const frontMatterData = matter(fileContent).data as PrePost;
+    const frontMatter = matter(fileContent).data as PrePost;
 
     // Extracting ID from the file name
     const id = filePath.split("/").pop()?.split(".mdx")[0];
@@ -18,22 +17,24 @@ function validateMDX(filePath: string): void {
       );
     }
 
-    // Create a Post object including the id and path
-    const frontMatter: Post = {
-      id: id,
-      ...frontMatterData,
-    };
+    // Check if all required fields are present
+    const requiredFields = [
+      "title",
+      "category",
+      "publishedAt",
+      "updatedAt",
+      "author",
+      "description",
+      "tag",
+      "rePost",
+      "status",
+    ];
 
-    // Additional validations can go here...
-    if (!Date.parse(frontMatter.publishedAt)) {
-      throw new Error("Invalid publishedAt date.");
+    for (const field of requiredFields) {
+      if (!frontMatter[field as keyof PrePost]) {
+        throw new Error(`Missing required field: ${field}`);
+      }
     }
-
-    if (!Date.parse(frontMatter.updatedAt)) {
-      throw new Error("Invalid updatedAt date.");
-    }
-
-    // ... (Other validations)
 
     console.log(`File ${filePath} is valid`);
   } catch (error) {
