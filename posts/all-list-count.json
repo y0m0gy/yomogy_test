@@ -1,11 +1,10 @@
 {
   "categories": {
     "synbio": 1,
-    "igem": 4
+    "igem": 5
   },
   "authors": {
-    "Yomogy": 4,
-    "Yom": 1
+    "Yomogy": 6
   },
   "categoryTags": {
     "synbio": {
@@ -14,10 +13,9 @@
       "information": 1
     },
     "igem": {
-      "java": 3,
-      "react": 4,
-      "information": 4,
-      "javascript": 1
+      "java": 5,
+      "react": 5,
+      "information": 5
     }
   }
 }

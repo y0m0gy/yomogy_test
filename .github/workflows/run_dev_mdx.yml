@@ -45,9 +45,10 @@ jobs:
                 fi
               fi
             done
-  
+        
+            echo "::set-output name=validation_failed::$VALIDATION_FAILED"
             echo "INVALID_FILES=$INVALID_FILES" >> $GITHUB_ENV
-            echo "VALIDATION_FAILED=$VALIDATION_FAILED" >> $GITHUB_ENV
+        
   
         - name: Set Git user
           run: |
@@ -55,13 +56,13 @@ jobs:
               git config user.email "github-actions@github.com"
     
         - name: Delete invalid files and push
-          if: env.VALIDATION_FAILED == 'true'
+          if: steps.validate_mdx.outputs.validation_failed == 'true'
           run: |
               for FILE in $INVALID_FILES
               do
                 git rm $FILE
               done
-    
+        
               git commit -m "Deleted invalid MDX files"
               git push origin HEAD:${{ github.ref }}
-    
+        
