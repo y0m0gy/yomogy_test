@@ -37,7 +37,11 @@ jobs:
         run: |
           git config user.name 'GitHub Actions'
           git config user.email 'actions@github.com'
+          
+          git fetch origin dev
+          git rebase origin/dev
+
           git add -A
           git commit -m "Automated Update by Github"
-          git pull origin dev
+
           git push https://${{ secrets.GITHUB_TOKEN }}@github.com/yomogyhub/yomogy_test.git HEAD:dev
