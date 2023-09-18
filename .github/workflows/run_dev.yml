@@ -1,4 +1,4 @@
-name: For dev Json & png Validation
+name: For dev Json & Fig-File Validation
 
 on:
   push:
@@ -16,7 +16,7 @@ permissions:
 
 
 jobs:
-  check-json-png-updated:
+  check-json-fig-updated:
     runs-on: ubuntu-latest
 
     steps:
@@ -75,14 +75,51 @@ jobs:
           fi
       
 
-      - name: Validate and remove non-compliant PNG files
+      - name: Validate and remove non-compliant files
         if: steps.check_paths.outputs.update_required == 'true'
         run: |
           MAX_SIZE=3000000  # 3MB in bytes
 
           git config user.name "GitHub Actions"
           git config user.email "github-actions@github.com"
+          
+          ALLOWED_EXTENSIONS=("png" "jpg" "jpeg" "gif")
 
+          # Remove non-PNG files in public/author
+          for FILE in public/author/*; do
+            if [ -f "$FILE" ]; then
+              if [[ "$FILE" != *.png ]]; then
+                echo "Non-PNG file found: $FILE. Deleting..."
+                git rm $FILE
+                INVALID_FILES_FOUND=true
+              fi
+            fi
+          done
+
+          # Ensure only allowed file types in blog images directories
+          for PATH_PATTERN in 'public/blog/**/images/*' 'posts/blog/**/images/*'; do
+            for FILE in $PATH_PATTERN; do
+              if [ -f "$FILE" ]; then
+                FILE_EXTENSION="${FILE##*.}"
+                ALLOWED_EXTENSION=false
+                
+                for EXTENSION in "${ALLOWED_EXTENSIONS[@]}"; do
+                  if [[ "$FILE_EXTENSION" == "$EXTENSION" ]]; then
+                    ALLOWED_EXTENSION=true
+                    break
+                  fi
+                done
+                
+                if [[ "$ALLOWED_EXTENSION" == false ]]; then
+                  echo "File $FILE has an invalid extension ($FILE_EXTENSION). Deleting..."
+                  git rm $FILE
+                  INVALID_FILES_FOUND=true
+                fi
+              fi
+            done
+          done
+
+          # Validate PNG files in public/author
           for FILE in public/author/*.png; do
             if [ -f "$FILE" ]; then
               FILE_SIZE=$(stat -c%s "$FILE")
@@ -94,8 +131,9 @@ jobs:
               fi
             fi
           done
-          
-          for PATH_PATTERN in 'public/blog/**/**/*.png' 'posts/blog/**/**/*.png'; do
+
+          # Validate file size in specified directories
+          for PATH_PATTERN in 'public/blog/**/images/*' 'posts/blog/**/images/*'; do
             for FILE in $PATH_PATTERN; do
               if [ -f "$FILE" ]; then
                 FILE_SIZE=$(stat -c%s "$FILE")
@@ -109,6 +147,6 @@ jobs:
           done
 
           if [ "$INVALID_FILES_FOUND" = true ]; then
-            git commit -m "Deleted non-compliant PNG files"
+            git commit -m "Deleted non-compliant files"
             git push origin HEAD:${{ github.ref }}
           fi
