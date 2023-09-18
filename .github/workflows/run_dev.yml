@@ -78,8 +78,10 @@ jobs:
       - name: Validate and remove non-compliant PNG files
         if: steps.check_paths.outputs.update_required == 'true'
         run: |
-          MAX_SIZE_1=3000000  # 3MB in bytes
-          MAX_SIZE_2=3000000  # 3MB in bytes
+          MAX_SIZE=3000000  # 3MB in bytes
+
+          git config user.name "GitHub Actions"
+          git config user.email "github-actions@github.com"
 
           for FILE in public/author/*.png; do
             if [ -f "$FILE" ]; then
@@ -93,26 +95,17 @@ jobs:
             fi
           done
           
-          for FILE in public/blog/**/**/*.png; do
-            if [ -f "$FILE" ]; then
-              FILE_SIZE=$(stat -c%s "$FILE")
-              if [ $FILE_SIZE -gt $MAX_SIZE_1 ]; then
-                echo "File $FILE is too large ($FILE_SIZE bytes). Deleting..."
-                git rm $FILE
-                INVALID_FILES_FOUND=true
+          for PATH_PATTERN in 'public/blog/**/**/*.png' 'posts/blog/**/**/*.png'; do
+            for FILE in $PATH_PATTERN; do
+              if [ -f "$FILE" ]; then
+                FILE_SIZE=$(stat -c%s "$FILE")
+                if [ $FILE_SIZE -gt $MAX_SIZE ]; then
+                  echo "File $FILE is too large ($FILE_SIZE bytes). Deleting..."
+                  git rm $FILE
+                  INVALID_FILES_FOUND=true
+                fi
               fi
-            fi
-          done
-
-          for FILE in posts/blog/**/**/*.png; do
-            if [ -f "$FILE" ]; then
-              FILE_SIZE=$(stat -c%s "$FILE")
-              if [ $FILE_SIZE -gt $MAX_SIZE_2 ]; then
-                echo "File $FILE is too large ($FILE_SIZE bytes). Deleting..."
-                git rm $FILE
-                INVALID_FILES_FOUND=true
-              fi
-            fi
+            done
           done
 
           if [ "$INVALID_FILES_FOUND" = true ]; then
