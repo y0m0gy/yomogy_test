@@ -38,10 +38,16 @@ jobs:
           git config user.name 'GitHub Actions'
           git config user.email 'actions@github.com'
 
+          # リモートの変更をフェッチして現在のブランチをリモートブランチの最新の状態にリセットします
           git fetch origin dev
           git reset --hard origin/dev
 
+          # 新たな変更をコミットします
           git add -A
-          git commit -m "Automated Update by Github"
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Automated Update by Github"
+          fi
 
           git push https://${{ secrets.GITHUB_TOKEN }}@github.com/yomogyhub/yomogy_test.git HEAD:dev
