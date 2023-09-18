@@ -136,10 +136,11 @@ jobs:
 
           # Validate cover image files in specified directories
           for FILE in public/blog/**/images/*_cover.png posts/blog/**/images/*_cover.png; do
-            echo "Checking file: $FILE"
+            echo "Checking file cover: $FILE"
 
             if [ -f "$FILE" ]; then
               FILE_SIZE=$(stat -c%s "$FILE")
+              echo "$FILE_SIZE"
               IMAGE_DIMENSIONS=$(file $FILE | grep -o '[0-9]* x [0-9]*')
               if [ "$IMAGE_DIMENSIONS" != "1200 x 630" ]; then
                 echo "File $FILE has invalid dimensions ($IMAGE_DIMENSIONS). Deleting..."
