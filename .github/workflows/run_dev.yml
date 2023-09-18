@@ -142,11 +142,18 @@ jobs:
               FILE_SIZE=$(stat -c%s "$FILE")
               echo "$FILE_SIZE"
               IMAGE_DIMENSIONS=$(file $FILE | grep -o '[0-9]* x [0-9]*')
+
               if [ "$IMAGE_DIMENSIONS" != "1200 x 630" ]; then
                 echo "File $FILE has invalid dimensions ($IMAGE_DIMENSIONS). Deleting..."
-                git rm $FILE
+                if git ls-files --error-unmatch "$FILE" > /dev/null 2>&1; then
+                  git rm "$FILE" || true
+                else
+                  echo "File $FILE is not tracked by git. Deleting..."
+                  rm "$FILE" || true
+                fi
                 INVALID_FILES_FOUND=true
               fi
+
             fi
           done
 
