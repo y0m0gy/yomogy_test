@@ -99,6 +99,8 @@ jobs:
           # Ensure only allowed file types in blog images directories
           for PATH_PATTERN in 'public/blog/**/images/*' 'posts/blog/**/images/*'; do
             for FILE in $PATH_PATTERN; do
+              echo "Checking file: $FILE"
+
               if [ -f "$FILE" ]; then
                 FILE_EXTENSION="${FILE##*.}"
                 ALLOWED_EXTENSION=false
@@ -134,6 +136,8 @@ jobs:
 
           # Validate cover image files in specified directories
           for FILE in public/blog/**/images/*_cover.png posts/blog/**/images/*_cover.png; do
+            echo "Checking file: $FILE"
+
             if [ -f "$FILE" ]; then
               FILE_SIZE=$(stat -c%s "$FILE")
               IMAGE_DIMENSIONS=$(file $FILE | grep -o '[0-9]* x [0-9]*')
