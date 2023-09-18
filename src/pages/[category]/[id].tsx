@@ -50,6 +50,7 @@ export async function getStaticProps({
   // Check if data.id is undefined, and if so, replace it with null
   if (blogPostProps.data && blogPostProps.data.id === undefined) {
     blogPostProps.data.id = null;
+    blogPostProps.data.coverImage = blogPostProps.coverImage ?? null;
   }
 
   // 前後の記事を取得
@@ -75,6 +76,7 @@ export async function getStaticProps({
       author: authorDetails,
       id: params.id,
       adjacentPosts: adjacentPosts,
+      coverImage: blogPostProps.coverImage,
     },
   };
 }
