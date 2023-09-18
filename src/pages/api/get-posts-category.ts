@@ -156,13 +156,7 @@ export async function createJsonForAuthorsAndPosts() {
   // 各カテゴリの画像を対応するpublic/images/blog/下のディレクトリにコピー
   categories.forEach((category) => {
     const source = path.join(blogDirectory, category);
-    const destination = path.join(
-      process.cwd(),
-      "public",
-      "images",
-      "blog",
-      category
-    );
+    const destination = path.join(process.cwd(), "public", "blog", category);
 
     // 画像をコピーする前に、宛先のディレクトリが存在しない場合は作成
     if (!fs.existsSync(destination)) {

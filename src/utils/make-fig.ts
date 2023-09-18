@@ -66,7 +66,7 @@ export async function createImage(
   // テキストの位置を適宜調整
 
   // 別の画像を読み込む
-  const overlayImage = await loadImage("posts" + authorImage);
+  const overlayImage = await loadImage("public" + authorImage);
   // const overlayImage = await loadImage("public/images/authors/y0m0gy.png");
 
   const overlaySize = Math.min(overlayImage.width, overlayImage.height); // 幅と高さの小さい方を取得
@@ -96,6 +96,5 @@ export async function createImage(
 
   // 画像を保存する
   const buffer = canvas.toBuffer("image/png");
-
   fs.writeFileSync(savePath, buffer);
 }

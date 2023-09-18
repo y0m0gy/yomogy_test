@@ -1,4 +1,4 @@
-name: For dev Json Validation and RUN NPX
+name: For dev Json & Fig-File Validation
 
 on:
   push:
@@ -7,16 +7,16 @@ on:
     paths:
       - 'posts/**.json'
       - 'posts/blog/**'
-      - 'public/images/blog/**'
+      - 'public/blog/**'
+      - 'public/author/**'
       - 'public/basic.png'
-
 
 permissions:
   contents: write
 
 
 jobs:
-  check-json-updated:
+  check-json-fig-updated:
     runs-on: ubuntu-latest
 
     steps:
@@ -74,36 +74,79 @@ jobs:
             exit 1
           fi
       
-        
-        
-        
 
-  run-npx-and-push:
-    needs: check-json-updated
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: "19.1.0"
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run NPX command
-        run: npx ts-node runFunction.ts
-
-      - name: Commit and push changes
-        if: success()
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Validate and remove non-compliant files
+        if: steps.check_paths.outputs.update_required == 'true'
         run: |
-          git config user.name 'GitHub Actions'
-          git config user.email 'actions@github.com'
-          git add -A
-          git commit -m "Automated Update by Github"
-          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/yomogyhub/yomogy_test.git HEAD:dev
+          MAX_SIZE=3000000  # 3MB in bytes
+
+          git config user.name "GitHub Actions"
+          git config user.email "github-actions@github.com"
+          
+          ALLOWED_EXTENSIONS=("png" "jpg" "jpeg" "gif")
+
+          # Remove non-PNG files in public/author
+          for FILE in public/author/*; do
+            if [ -f "$FILE" ]; then
+              if [[ "$FILE" != *.png ]]; then
+                echo "Non-PNG file found: $FILE. Deleting..."
+                git rm $FILE
+                INVALID_FILES_FOUND=true
+              fi
+            fi
+          done
+
+          # Ensure only allowed file types in blog images directories
+          for PATH_PATTERN in 'public/blog/**/images/*' 'posts/blog/**/images/*'; do
+            for FILE in $PATH_PATTERN; do
+              if [ -f "$FILE" ]; then
+                FILE_EXTENSION="${FILE##*.}"
+                ALLOWED_EXTENSION=false
+                
+                for EXTENSION in "${ALLOWED_EXTENSIONS[@]}"; do
+                  if [[ "$FILE_EXTENSION" == "$EXTENSION" ]]; then
+                    ALLOWED_EXTENSION=true
+                    break
+                  fi
+                done
+                
+                if [[ "$ALLOWED_EXTENSION" == false ]]; then
+                  echo "File $FILE has an invalid extension ($FILE_EXTENSION). Deleting..."
+                  git rm $FILE
+                  INVALID_FILES_FOUND=true
+                fi
+              fi
+            done
+          done
+
+          # Validate PNG files in public/author
+          for FILE in public/author/*.png; do
+            if [ -f "$FILE" ]; then
+              FILE_SIZE=$(stat -c%s "$FILE")
+              IMAGE_DIMENSIONS=$(file $FILE | grep -o '[0-9]* x [0-9]*')
+              if [ "$IMAGE_DIMENSIONS" != "200 x 200" ]; then
+                echo "File $FILE has invalid dimensions ($IMAGE_DIMENSIONS). Deleting..."
+                git rm $FILE
+                INVALID_FILES_FOUND=true
+              fi
+            fi
+          done
+
+          # Validate file size in specified directories
+          for PATH_PATTERN in 'public/blog/**/images/*' 'posts/blog/**/images/*'; do
+            for FILE in $PATH_PATTERN; do
+              if [ -f "$FILE" ]; then
+                FILE_SIZE=$(stat -c%s "$FILE")
+                if [ $FILE_SIZE -gt $MAX_SIZE ]; then
+                  echo "File $FILE is too large ($FILE_SIZE bytes). Deleting..."
+                  git rm $FILE
+                  INVALID_FILES_FOUND=true
+                fi
+              fi
+            done
+          done
+
+          if [ "$INVALID_FILES_FOUND" = true ]; then
+            git commit -m "Deleted non-compliant files"
+            git push origin HEAD:${{ github.ref }}
+          fi

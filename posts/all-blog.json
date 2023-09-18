@@ -35,9 +35,9 @@
     "rePost": "https:yomogy.com",
     "status": "published"
   },
-  "post1": {
-    "id": "post1",
-    "path": "/posts/blog/yama/post1",
+  "post12": {
+    "id": "post12",
+    "path": "/posts/blog/yama/post12",
     "title": "はじめての投稿",
     "publishedAt": "2023-05-27",
     "updatedAt": "2023-05-28",
@@ -49,7 +49,7 @@
       "react",
       "information"
     ],
-    "coverImage": "/blog/yama/images/post1_cover.png",
+    "coverImage": "/blog/yama/images/post12_cover.png",
     "rePost": false,
     "status": "published"
   },
