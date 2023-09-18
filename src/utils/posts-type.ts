@@ -13,8 +13,7 @@ export interface Tag extends ParsedUrlQuery {
   tag: string;
 }
 
-export interface Post {
-  id: string;
+export interface PrePost {
   path: string;
   title: string;
   publishedAt: string;
@@ -26,6 +25,10 @@ export interface Post {
   coverImage: string;
   rePost: string;
   status: string;
+}
+
+export interface Post extends PrePost {
+  id: string;
 }
 
 export interface PostLists {

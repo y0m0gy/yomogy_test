@@ -1,0 +1,65 @@
+name: For dev MDX Validation
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - 'posts/**/*.mdx'
+
+permissions:
+  contents: write
+
+jobs:
+  check-json-fig-updated:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Get list of commits since last push on dev branch
+        id: get_commits
+        run: |
+          git fetch origin dev
+          COMMITS=$(git rev-list ${{ github.event.before }}..${{ github.sha }})
+          echo "::set-output name=commits::$COMMITS"
+
+          - name: Validate MDX files
+          id: validate_mdx
+          run: |
+            VALIDATION_FAILED=false
+            for COMMIT in ${{ steps.get_commits.outputs.commits }}
+            do
+              FILES_CHANGED=$(git diff-tree --no-commit-id --name-only -r $COMMIT)
+              for FILE in $FILES_CHANGED
+              do
+                if [[ "$FILE" == 'posts/'*.mdx ]]; then
+                  # MDXファイルの検証
+                  if ! npx ts-node src/utils/validation-mdx.ts "$FILE"; then
+                    echo "Validation failed for $FILE at commit $COMMIT"
+                    VALIDATION_FAILED=true
+                    break 2
+                  fi
+                fi
+              done
+            done
+            
+            echo "::set-output name=validation_failed::$VALIDATION_FAILED"
+  
+      - name: Rollback if validation fails
+        if: steps.validate_mdx.outputs.validation_failed == 'true'
+        run: |
+          git reset --hard ${{ github.event.before }}
+          git push origin HEAD:${{ github.ref }} --force
+          exit 1
