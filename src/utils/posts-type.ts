@@ -22,13 +22,13 @@ export interface PrePost {
   author: string;
   description: string;
   tag: string[];
-  coverImage: string;
   rePost: string;
   status: string;
 }
 
 export interface Post extends PrePost {
   id: string;
+  coverImage: string;
 }
 
 export interface PostLists {
