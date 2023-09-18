@@ -136,7 +136,6 @@ jobs:
           for FILE in public/blog/**/images/*_cover.png posts/blog/**/images/*_cover.png; do
             if [ -f "$FILE" ]; then
               FILE_SIZE=$(stat -c%s "$FILE")
-              IMAGE_DIMENSIONS=$(file $FILE | grep -o '[0-9]* x [0-9]*')
               IMAGE_DIMENSIONS=$(file "$FILE" | grep -o '[0-9]* x [0-9]*' || echo "0 x 0")
               if [ "$IMAGE_DIMENSIONS" != "1200 x 630" ]; then
                 echo "File $FILE has invalid dimensions ($IMAGE_DIMENSIONS). Deleting..."
