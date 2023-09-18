@@ -430,6 +430,7 @@ export async function getData(params: Category & PostID) {
     id: data.id,
     content: content,
     data: data,
+    coverImage: postInfo.coverImage,
   };
 }
 
