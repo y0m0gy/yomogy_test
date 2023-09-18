@@ -41,6 +41,11 @@ export async function createJsonForAuthorsAndPosts() {
       const author = matterResult.data.author;
       const tags = matterResult.data.tag as [];
 
+      // この記事は公開状態ではない場合スキップ
+      if (matterResult.data.status !== "published") {
+        continue;
+      }
+
       allAuthors.push(author);
 
       allPostsData[id] = {
@@ -425,6 +430,7 @@ export async function getData(params: Category & PostID) {
     id: data.id,
     content: content,
     data: data,
+    coverImage: postInfo.coverImage,
   };
 }
 
