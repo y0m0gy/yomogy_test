@@ -1,25 +1,25 @@
 {
   "post2": {
     "id": "post2",
-    "path": "/posts/blog/synbio/post2",
+    "path": "/posts/blog/reiabe/post2",
     "title": "My First Post2",
     "publishedAt": "2023-06-1",
     "updatedAt": "2023-06-2",
     "category": "synbio",
-    "author": "Yomogy",
+    "author": "abe",
     "description": "This is my first post.",
     "tag": [
       "javascript",
       "reacts",
       "information"
     ],
-    "coverImage": "/blog/synbio/images/post2_cover.png",
+    "coverImage": "/blog/reiabe/images/post2_cover.png",
     "rePost": false,
     "status": "published"
   },
   "add-post1": {
     "id": "add-post1",
-    "path": "/posts/blog/yama/add-post1",
+    "path": "/posts/blog/yomogy/add-post1",
     "title": "Githubからの投稿",
     "publishedAt": "2023-08-11",
     "updatedAt": "2023-08-11",
@@ -31,13 +31,13 @@
       "react",
       "information"
     ],
-    "coverImage": "/blog/yama/images/add-post1_cover.png",
+    "coverImage": "/blog/yomogy/images/add-post1_cover.png",
     "rePost": "https:yomogy.com",
     "status": "published"
   },
   "post1": {
     "id": "post1",
-    "path": "/posts/blog/yama/post1",
+    "path": "/posts/blog/yomogy/post1",
     "title": "はじめての投稿",
     "publishedAt": "2023-05-27",
     "updatedAt": "2023-05-28",
@@ -49,13 +49,13 @@
       "react",
       "information"
     ],
-    "coverImage": "/blog/yama/images/post1_cover.png",
+    "coverImage": "/blog/yomogy/images/post1_cover.png",
     "rePost": false,
     "status": "published"
   },
   "post12": {
     "id": "post12",
-    "path": "/posts/blog/yama/post12",
+    "path": "/posts/blog/yomogy/post12",
     "title": "はじめての投稿",
     "publishedAt": "2023-05-27",
     "updatedAt": "2023-05-28",
@@ -67,13 +67,13 @@
       "react",
       "information"
     ],
-    "coverImage": "/blog/yama/images/post12_cover.png",
+    "coverImage": "/blog/yomogy/images/post12_cover.png",
     "rePost": false,
     "status": "published"
   },
   "post3": {
     "id": "post3",
-    "path": "/posts/blog/yama/post3",
+    "path": "/posts/blog/yomogy/post3",
     "title": "My 3",
     "publishedAt": "2023-05-31",
     "updatedAt": "2023-06-1",
@@ -85,13 +85,13 @@
       "react",
       "information"
     ],
-    "coverImage": "/blog/yama/images/post3_cover.png",
+    "coverImage": "/blog/yomogy/images/post3_cover.png",
     "rePost": false,
     "status": "published"
   },
   "post4": {
     "id": "post4",
-    "path": "/posts/blog/yama/post4",
+    "path": "/posts/blog/yomogy/post4",
     "title": "My 4",
     "publishedAt": "2023-06-1",
     "updatedAt": "2023-06-2",
@@ -103,7 +103,7 @@
       "react",
       "information"
     ],
-    "coverImage": "/blog/yama/images/post4_cover.png",
+    "coverImage": "/blog/yomogy/images/post4_cover.png",
     "rePost": false,
     "status": "published"
   }

@@ -21,7 +21,7 @@
     "name": "Rei",
     "description": "Reiです。",
     "twitter": "https://twitter.com/ReiA2023",
-    "image": "public/authors/reiabe.png"
+    "image": "/authors/reiabe.png"
   },
   "Yama": {
     "name": "Yamaa",

@@ -11,9 +11,9 @@ function validateMDX(filePath: string): void {
 
     // Extracting ID from the file name
     const id = filePath.split("/").pop()?.split(".mdx")[0];
-    if (!id || !/^[a-zA-Z0-9]+$/.test(id)) {
+    if (!id || !/^[a-zA-Z0-9\-]+$/.test(id)) {
       throw new Error(
-        "Invalid ID: ID must only contain alphabets and no spaces or underscores."
+        "Invalid ID: ID must only contain alphabets, numbers, and hyphens (no spaces or underscores)."
       );
     }
 
