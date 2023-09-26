@@ -35,7 +35,9 @@ const LinkCard: React.FC<LinkCardProps> = ({ metadata, size = "small" }) => {
             />
           )}
           <div className="p-2">
-            <div className="text-xl font-bold">{metadata.title}</div>
+            <div className="text-gray-900 text-xl font-bold dark:text-gray-300">
+              {metadata.title}
+            </div>
             <p className="text-sm text-gray-600  mt-1 mb-2 dark:text-gray-400">
               {metadata.description}
             </p>
@@ -56,7 +58,9 @@ const LinkCard: React.FC<LinkCardProps> = ({ metadata, size = "small" }) => {
             target="_blank"
             rel="noreferrer"
           >
-            <div className="text-xl font-bold">{metadata.title}</div>
+            <div className="text-gray-900 text-xl font-bold dark:text-gray-300">
+              {metadata.title}
+            </div>
             <p className="text-sm text-gray-600 mt-1 mb-2 dark:text-gray-400 ">
               {metadata.description}
             </p>

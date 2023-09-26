@@ -13,6 +13,13 @@ module.exports = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
     },
+    theme: {
+      extend: {
+        colors: {
+          customGreen: "rgb(94, 173, 67)",
+        },
+      },
+    },
   },
   darkMode: "class", // 'media' または 'class'
   plugins: [],

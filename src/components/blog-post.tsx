@@ -10,6 +10,8 @@ import AdComponent from "../components/ad";
 import tocbot from "tocbot";
 import React, { useEffect } from "react";
 import Router from "next/router";
+import ReactMarkdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
 
 const BlogPost: React.FC<BlogPostOnlyProps> = ({
   content,
@@ -53,11 +55,10 @@ const BlogPost: React.FC<BlogPostOnlyProps> = ({
   return (
     <div className="blog_main bg-white dark:bg-gray-900 p-4 lg:p-8 max-w-6xl mx-auto w-full max-w-full">
       <div className="flex items-center space-x-2">
-        <p className="text-gray-800 dark:text-gray-200">{"Home > "}</p>
-        <Link
-          href={`/${data.category}/page/1`}
-          className="text-blue-500 hover:underline"
-        >
+        <span className="text-gray-800 dark:text-gray-200 p-0">
+          {"Home > "}
+        </span>
+        <Link href={`/${data.category}/page/1`} className="hover:underline">
           {data.category}
         </Link>
       </div>
@@ -66,7 +67,7 @@ const BlogPost: React.FC<BlogPostOnlyProps> = ({
         {data.title}
       </h1>
       <div className="flex items-center mb-4 space-x-4">
-        <span className="text-blue-500 hover:underline dark:text-blue-400">
+        <span className="link_a hover:underline ">
           <Link href={`/author/${data.author}/1`}>{data.author}</Link>
         </span>
         <time
@@ -88,7 +89,7 @@ const BlogPost: React.FC<BlogPostOnlyProps> = ({
           <span key={index} className="mr-2 inline-block">
             <Link
               href={`/${data.category}/tag/${name}/1`}
-              className="text-blue-500 hover:underline dark:text-blue-400 bg-blue-100 dark:bg-blue-800 px-3 py-1 rounded-full"
+              className="border border-gray-500 hover:underline dark:border-gray-200  px-3 py-1 rounded-full"
             >
               # {name}
             </Link>
@@ -98,7 +99,7 @@ const BlogPost: React.FC<BlogPostOnlyProps> = ({
 
       {/* repost の表示 */}
       {data.rePost && data.rePost.slice(0, 5) === "https" && (
-        <div className="repost-section bg-gray-100 dark:bg-gray-800 p-2 mb-4 rounded-md shadow">
+        <div className="link_a repost-section bg-gray-100 dark:bg-gray-800 p-2 mb-4 rounded-md shadow">
           Repost (Approved) :{" "}
           <a
             href={data.rePost}
@@ -110,14 +111,22 @@ const BlogPost: React.FC<BlogPostOnlyProps> = ({
           </a>
         </div>
       )}
-      <div className="text-gray-800 dark:text-gray-300 pt-2 mb-4">
-        {data.description}
+      <div className="link_a text-gray-800 dark:text-gray-300 pt-2 mb-4">
+        <p>
+          <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+            {data.description}
+          </ReactMarkdown>
+        </p>
       </div>
-      <p className="font-bold text-xl mb-2 text-gray-800 dark:text-gray-200">
-        目次
-      </p>
-      <div className="toc bg-white dark:bg-gray-700 p-4 rounded shadow-md mb-4 divide-y divide-gray-300 dark:divide-gray-600"></div>
-      <div className="mdx-content mb-4">
+
+      <div className="link_a bg-white dark:bg-gray-700 p-4 rounded shadow-md mb-4 divide-y divide-gray-300 dark:divide-gray-600">
+        <p className="font-bold text-xl mb-2 text-gray-800 dark:text-gray-200">
+          目次
+        </p>
+        <div className="toc pl-4"></div>
+      </div>
+
+      <div className="mdx-content link_a mb-4">
         <MDXRemote {...content} components={{ LinkCard, SNSCard }} />
       </div>
       <div className="flex justify-between items-center mt-4 mb-4">
