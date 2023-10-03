@@ -20,8 +20,8 @@ const PageList: React.FC<PostLists> = ({ title, posts }) => (
                 src={`${post.coverImage}`}
                 alt={post.title}
                 className="rounded-md object-cover h-full w-full"
-                width={1200}
-                height={630}
+                width={600}
+                height={315}
               />
             </div>
             <div className="p-4">

@@ -1,22 +1,22 @@
 {
   "categories": {
-    "synbio": 1,
-    "igem": 5
+    "synbio": 2,
+    "igem": 7
   },
   "authors": {
     "abe": 1,
-    "Yomogy": 5
+    "Yomogy": 8
   },
   "categoryTags": {
     "synbio": {
       "javascript": 1,
       "reacts": 1,
-      "information": 1
+      "information": 2
     },
     "igem": {
       "java": 5,
       "react": 5,
-      "information": 5
+      "information": 7
     }
   }
 }

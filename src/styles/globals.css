@@ -77,7 +77,7 @@ body {
   line-height: 2.8rem;
   font-weight: 600;
   padding: 0 12px;
-  margin-top: 1.6rem;
+  margin-top: 2.4em;
   margin-bottom: 0.8rem;
 }
 
@@ -86,13 +86,25 @@ body {
   font-size: 1.5rem;
   font-weight: 600;
   line-height: 2.5rem;
-  margin-top: 20px;
+  margin-top: 1.2em;
   margin-bottom: 10px;
   padding: 0 12px;
   border-bottom: 2px solid #666;
 }
 .blog_main p {
   padding: 0 12px;
+}
+.blog_main ul {
+  list-style: disc;
+  margin: 0 24px;
+  padding: 0 12px;
+}
+
+.link_a a:link,
+.link_a a:visited,
+.link_a a:active {
+  color: rgb(94, 173, 67);
+  text-decoration: none;
 }
 
 /* footerのスタイル */

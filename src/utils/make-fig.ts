@@ -60,7 +60,7 @@ export async function createImage(
     text, // "これはテストです.これはテストです.これはテストです.これはテストです.これはテストです.これはテストです.",
     70,
     220,
-    canvas.width - 100,
+    canvas.width - 130,
     64
   );
   // テキストの位置を適宜調整
