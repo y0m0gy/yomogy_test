@@ -126,9 +126,10 @@ const BlogPost: React.FC<BlogPostOnlyProps> = ({
         <div className="toc pl-4"></div>
       </div>
 
-      <div className="mdx-content link_a mb-4">
+      <div className="mdx-content link_a pb-20">
         <MDXRemote {...content} components={{ LinkCard, SNSCard }} />
       </div>
+
       <div className="flex justify-between items-center mt-4 mb-4">
         <div className="align-items">
           <ShareButtons

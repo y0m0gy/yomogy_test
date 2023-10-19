@@ -26,6 +26,22 @@ body {
   color: #f5f5f5; /* ダークモードのテキスト色 */
 }
 
+blockquote {
+  margin-left: 0;
+  margin-right: 0;
+  padding: 10px 20px;
+  border-left: 5px solid #f1f1f1;
+  background-color: #f9f9f9;
+  font-style: italic;
+  color: #333;
+}
+
+.dark blockquote {
+  border-left: 5px solid #444;
+  background-color: #2b2b2b;
+  color: #ddd;
+}
+
 /* 目次 */
 .toc-list-item {
   padding: 8px 0; /* 上下のスペースを追加 */
@@ -121,11 +137,11 @@ body {
   color: #ffffff; /* 文字を白に設定 */
 }
 
-.blog_main h2.dark {
+.blog_main.dark h2 {
   border-bottom-color: #aaa; /* ダークモードの下線の色 */
 }
 
-.blog_main h3.dark {
+.blog_main.dark h3 {
   border-left-color: #7b7b7b; /* 左の線の色をダークモードに適した色に変更 */
 }
 
