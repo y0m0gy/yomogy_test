@@ -60,26 +60,51 @@ export async function createImage(
     text, // "これはテストです.これはテストです.これはテストです.これはテストです.これはテストです.これはテストです.",
     70,
     220,
-    canvas.width - 100,
+    canvas.width - 130,
     64
   );
   // テキストの位置を適宜調整
 
   // 別の画像を読み込む
-  const overlayImage = await loadImage("public" + authorImage);
   // const overlayImage = await loadImage("public/images/authors/y0m0gy.png");
-
-  const overlaySize = Math.min(overlayImage.width, overlayImage.height); // 幅と高さの小さい方を取得
-  const offsetX = (overlayImage.width - overlaySize) / 2; // X方向の切り取る開始位置
-  const offsetY = (overlayImage.height - overlaySize) / 2; // Y方向の切り取る開始位置
-
+  const overlayImage = await loadImage("public" + authorImage);
+  const overlaySize = Math.min(overlayImage.width, overlayImage.height);
+  const offsetX = (overlayImage.width - overlaySize) / 2;
+  const offsetY = (overlayImage.height - overlaySize) / 2;
   const desiredSize = 80; // ここで最終的な枠のサイズを指定します（例: 100x100）
 
-  // ベースの画像に切り取った画像を指定したサイズにスケーリングして描画
-  ctx.drawImage(
+  // 新しいキャンバスを作成して丸くクリッピング
+  const overlayCanvas = createCanvas(overlaySize, overlaySize);
+  const overlayCtx = overlayCanvas.getContext("2d");
+
+  overlayCtx.beginPath();
+  overlayCtx.arc(
+    overlaySize / 2,
+    overlaySize / 2,
+    overlaySize / 2,
+    0,
+    2 * Math.PI
+  );
+  overlayCtx.clip();
+
+  // オリジナルの画像を新しいキャンバスに描画
+  overlayCtx.drawImage(
     overlayImage,
     offsetX,
     offsetY,
+    overlaySize,
+    overlaySize,
+    0,
+    0,
+    overlaySize,
+    overlaySize
+  );
+
+  // 新しいキャンバスの内容をメインのキャンバスに描画
+  ctx.drawImage(
+    overlayCanvas,
+    0,
+    0,
     overlaySize,
     overlaySize, // 画像の切り取り範囲
     70,
