@@ -16,17 +16,5 @@
     "description": "新規ユーザーです。プロフィールを更新してください。",
     "twitter": "https://twitter.com/y0m0gy",
     "image": "/authors/y0m0gy.png"
-  },
-  "abe": {
-    "name": "Rei",
-    "description": "Reiです。",
-    "twitter": "https://twitter.com/ReiA2023",
-    "image": "/authors/reiabe.png"
-  },
-  "Yama": {
-    "name": "Yamaa",
-    "description": "テンプレートです",
-    "twitter": "https://twitter.com/y0m0gy",
-    "image": "/authors/y0m0gy.png"
   }
 }
