@@ -6,6 +6,7 @@ import { AuthorDetails } from "./author";
 import ShareButtons from "../components/share-buttons";
 import LinkCard from "../components/link-card";
 import SNSCard from "../components/sns-card";
+import MediaCard from "../components/media-card";
 import AdComponent from "../components/ad";
 import tocbot from "tocbot";
 import React, { useEffect } from "react";
@@ -127,7 +128,7 @@ const BlogPost: React.FC<BlogPostOnlyProps> = ({
       </div>
 
       <div className="mdx-content link_a pb-20">
-        <MDXRemote {...content} components={{ LinkCard, SNSCard }} />
+        <MDXRemote {...content} components={{ LinkCard, SNSCard, MediaCard }} />
       </div>
 
       <div className="flex justify-between items-center mt-4 mb-4">
