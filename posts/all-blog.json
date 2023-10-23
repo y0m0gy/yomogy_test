@@ -17,6 +17,22 @@
     "rePost": "https:yomogy.com",
     "status": "published"
   },
+  "biosensor-overview": {
+    "id": "biosensor-overview",
+    "path": "/posts/blog/yomogy/biosensor-overview",
+    "title": "Githubからの投稿",
+    "publishedAt": "2021-12-21",
+    "updatedAt": "2021-04-23",
+    "category": "synbio",
+    "author": "Yomogy",
+    "description": " バイオセンサーとは、細胞由来の物質を検出しようというセンサーのことを指します。これまでに、電気やレーザーなどを使用した物理的なシステムや、生物学的なシステムを応用したシステムなど、数多くのものが開発されてきました。\n<br /><br /> 一般的に、生物学的なシステムを使用する場合は、検出したい物質と反応する検出システムと、それらの情報を色や電気的なシグナルに変換する出力システムの2種類を組み合わせて使用されることが多いです。特に、前者のシステムは、検出したい物質に応じて、多種多様なシステムが開発されて来ています。\n<br /><br /> このようなバイオセンサーは、古くから開発されてきました。 例えば、酵素や抗体などを使用した、検出システムなどです。それらの技術開発により、グルコースやウイルスなどの検出を可能にするなど、さまざまな現象の理解が進んできました。\n<br /><br /> 近年では、それらの検出システムに加え、遺伝子工学的な手法の開発の発展により、よりミクロなスケールであったり、複雑なシステムを活用するシステムが発表されています。\n<br /><br /> 本記事では、近年のSynthetic biology (Synbio, 合成生物学)で使用されている、いくつかのバイオセンサーの検出方法について簡単に紹介します。 ",
+    "tag": [
+      "information"
+    ],
+    "coverImage": "/blog/yomogy/images/biosensor-overview_cover.png",
+    "rePost": false,
+    "status": "published"
+  },
   "cell-free-overview": {
     "id": "cell-free-overview",
     "path": "/posts/blog/yomogy/cell-free-overview",
