@@ -1,10 +1,10 @@
 {
   "categories": {
     "igem": 7,
-    "synbio": 3
+    "synbio": 4
   },
   "authors": {
-    "Yomogy": 10
+    "Yomogy": 11
   },
   "categoryTags": {
     "igem": {
@@ -14,8 +14,8 @@
       "history": 3
     },
     "synbio": {
-      "information": 3,
-      "paper": 1
+      "information": 4,
+      "paper": 2
     }
   }
 }

@@ -18,7 +18,7 @@ const MediaCard: React.FC<MediaCardProps> = ({
     : src;
 
   return (
-    <div style={{ width: "100%", height: "auto" }}>
+    <div style={{ width: "100%", height: "auto", margin: "3em 0" }}>
       {mediaType === "image" ? (
         <img src={fixSrc} alt={alt} />
       ) : (
