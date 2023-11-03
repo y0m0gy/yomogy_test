@@ -43,7 +43,7 @@ jobs:
           git reset --hard origin/dev
 
           # 新たな変更をコミットします
-          git add -A
+          git add .
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
